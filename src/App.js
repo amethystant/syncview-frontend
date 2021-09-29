@@ -1,25 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            videoUrl: null
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <FilePicker onFileChosen={(url) => {
+                    this.setState({
+                        videoUrl: url
+                    })
+                }}/>
+                <Player videoUrl={this.state.videoUrl}/>
+            </div>
+        )
+    }
+}
+
+class FilePicker extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.handleFileChosen = this.handleFileChosen.bind(this)
+        this.inputRef = React.createRef()
+    }
+
+    handleFileChosen() {
+        const file = this.inputRef.current.files[0]
+        const url = URL.createObjectURL(file)
+        this.props.onFileChosen(url)
+    }
+
+    render() {
+        return (<input type="file" ref={this.inputRef} onChange={this.handleFileChosen}/>);
+    }
+}
+
+class Player extends React.Component {
+    render() {
+        return (<video controls autoPlay src={this.props.videoUrl}/>)
+    }
 }
 
 export default App;
