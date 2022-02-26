@@ -54,13 +54,13 @@ class Player extends React.Component {
         }]
         const videoJsOptions = {
             autoplay: false,
-            playbackRates: [0.5, 1, 1.25, 1.5, 2],
             width: 720,
             height: 300,
             controls: true,
             sources: sources
         }
-        return <VideoJS options={videoJsOptions}/>
+        return <VideoJS options={videoJsOptions} showCurrentTimeDisplay={true} showTimeDivider={true}
+                        showDurationDisplay={true} showRemainingTimeDisplay={false} />
     }
 }
 

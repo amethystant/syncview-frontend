@@ -29,6 +29,29 @@ class VideoPlayer extends React.Component {
 
     initPlayer() {
         this.player = videojs(this.videoNode, this.props.options)
+        this.updateTimeControlVisibility()
+    }
+
+    updateTimeControlVisibility() {
+        let currentTimeElement = this.rootNode.getElementsByClassName('vjs-current-time').item(0)
+        if (currentTimeElement) {
+            currentTimeElement.style.display = this.props.showCurrentTimeDisplay ? 'block' : 'none'
+        }
+
+        let timeDividerElement = this.rootNode.getElementsByClassName('vjs-time-divider').item(0)
+        if (timeDividerElement) {
+            timeDividerElement.style.display = this.props.showTimeDivider ? 'block' : 'none'
+        }
+
+        let durationElement = this.rootNode.getElementsByClassName('vjs-duration').item(0)
+        if (durationElement) {
+            durationElement.style.display = this.props.showDurationDisplay ? 'block' : 'none'
+        }
+
+        let remainingTimeElement = this.rootNode.getElementsByClassName('vjs-remaining-time').item(0)
+        if (remainingTimeElement) {
+            remainingTimeElement.style.display = this.props.showRemainingTimeDisplay ? 'block' : 'none'
+        }
     }
 
     resetPlayer() {
@@ -47,8 +70,8 @@ class VideoPlayer extends React.Component {
 
     render() {
         return (
-            <div data-vjs-player key={this.state.videoKey}>
-                <video ref={node => this.videoNode = node} className="video-js"></video>
+            <div ref={node => this.rootNode = node} data-vjs-player="" key={this.state.videoKey}>
+                <video ref={node => this.videoNode = node} className="video-js" />
             </div>
         )
     }
