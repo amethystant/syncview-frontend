@@ -1,8 +1,10 @@
-import React from 'react'
-import videojs from 'video.js'
+import './VideoJs.css'
 import 'video.js/dist/video-js.css'
 
-class VideoPlayer extends React.Component {
+import React from 'react'
+import videojs from 'video.js'
+
+class VideoJs extends React.Component {
 
     constructor(props) {
         super(props)
@@ -69,12 +71,16 @@ class VideoPlayer extends React.Component {
     }
 
     render() {
+        const overrideStyle = {
+            width: '100%',
+            height: '100%'
+        }
         return (
-            <div ref={node => this.rootNode = node} data-vjs-player="" key={this.state.videoKey}>
-                <video ref={node => this.videoNode = node} className="video-js" />
+            <div ref={node => this.rootNode = node} data-vjs-player="" key={this.state.videoKey} style={overrideStyle}>
+                <video ref={node => this.videoNode = node} className="video-js video-js-wrapper-video" />
             </div>
         )
     }
 }
 
-export default VideoPlayer
+export default VideoJs
