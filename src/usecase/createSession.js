@@ -2,7 +2,7 @@ import constants from '../constants'
 
 export default function (url, makeJsonPostRequest, storage) {
     return (sessionName, hostNickname, isWaitingRoom, isControlsAllowed, fileDescription) => {
-        return makeJsonPostRequest(url, null, {
+        return makeJsonPostRequest('POST', url, null, {
             'name': sessionName,
             'hostName': hostNickname,
             'isWaitingRoom': isWaitingRoom,

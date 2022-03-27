@@ -1,16 +1,20 @@
 export default function () {
-    return (url, headers, jsonPayload) => {
+    return (method, url, headers, jsonPayload) => {
         const defaultHeaders = {
             'Content-Type': 'application/json'
         }
 
         return fetch(url, {
-            method: 'POST',
+            method: method,
             headers: {...defaultHeaders, ...headers},
             body: JSON.stringify(jsonPayload)
         }).then(response => {
             if (!response.ok) {
-                throw new Error('Request failed')
+                const error = new Error('Request failed')
+                if ([401, 404].includes(response.status)) {
+                    error.isAuthorization = true
+                }
+                throw error
             }
             return response.json()
         })
