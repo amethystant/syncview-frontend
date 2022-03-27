@@ -1,30 +1,22 @@
-import './App.css'
-
 import React from 'react'
-import Player from './Player'
-import FilePicker from './FilePicker'
+import {Route, Routes} from 'react-router-dom'
+import PlaybackScreen from './PlaybackScreen'
+import WelcomeScreen from './WelcomeScreen'
+import SessionCreationScreen from './SessionCreationScreen'
+import NotFoundScreen from './NotFoundScreen'
+import routeNames from '../routeNames'
 
 class App extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            videoUrl: null
-        }
-    }
 
     render() {
         return (
-            <div className="app-root">
-                <div className="app-player-div">
-                    <Player videoUrl={this.state.videoUrl}/>
-                </div>
-                <div className="app-file-chooser-div">
-                    <FilePicker onFileChosen={(url) => {
-                        this.setState({
-                            videoUrl: url
-                        })
-                    }}/>
-                </div>
+            <div>
+                <Routes>
+                    <Route path={routeNames.welcome} element={<WelcomeScreen/>}/>
+                    <Route path={routeNames.sessionCreation} element={<SessionCreationScreen/>}/>
+                    <Route path={routeNames.playback} element={<PlaybackScreen/>}/>
+                    <Route path="*" element={<NotFoundScreen/>}/>
+                </Routes>
             </div>
         )
     }

@@ -1,4 +1,4 @@
-import './Player.css'
+import '../styles/component/Player.css'
 
 import React from "react"
 import VideoJs from "./VideoJs"

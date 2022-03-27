@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 class FilePicker extends React.Component {
 
@@ -15,7 +15,13 @@ class FilePicker extends React.Component {
     }
 
     render() {
-        return <input type="file" ref={this.inputRef} onChange={this.handleFileChosen}/>
+        return (
+            <input
+                ref={this.inputRef}
+                type="file"
+                accept={this.props.accept}
+                onChange={this.handleFileChosen}/>
+        )
     }
 }
 

@@ -1,4 +1,4 @@
-import './VideoJs.css'
+import '../styles/component/VideoJs.css'
 import 'video.js/dist/video-js.css'
 
 import React from 'react'

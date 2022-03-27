@@ -1,0 +1,15 @@
+.playback-screen-root {
+    height: 100vh;
+}
+
+.playback-screen-player-div {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.playback-screen-file-chooser-div {
+    position: absolute;
+    z-index: 2;
+}
