@@ -21,8 +21,18 @@ class Player extends React.Component {
         }
         return (
             <div style={sizeStyle}>
-                <VideoJs className="player-main" options={videoJsOptions} showCurrentTimeDisplay={true}
-                         showTimeDivider={true} showDurationDisplay={true} showRemainingTimeDisplay={false}/>
+                <VideoJs
+                    className="player-main"
+                    options={videoJsOptions}
+                    showCurrentTimeDisplay={true}
+                    showTimeDivider={true}
+                    showDurationDisplay={true}
+                    showRemainingTimeDisplay={false}
+                    isPlaying={this.props.isPlaying}
+                    position={this.props.position}
+                    onPause={this.props.onPause}
+                    onPlay={this.props.onPlay}
+                    onSeek={this.props.onSeek}/>
             </div>
         )
     }

@@ -13,6 +13,7 @@ export default function (url, makeJsonPostRequest, storage) {
             storage.setItem(constants.storageKeys.TOKEN, token)
             storage.setItem(constants.storageKeys.GUEST_ID, guestId)
             storage.setItem(constants.storageKeys.SESSION_CODE, sessionCode)
+            storage.setItem(constants.storageKeys.IS_HOST, 'true')
             return {guestId, sessionCode}
         })
     }

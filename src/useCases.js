@@ -4,8 +4,12 @@ import buildMakeJsonRequest from './usecase/makeJsonRequest'
 import buildCreateSession from './usecase/createSession'
 import buildCleanSessionStorageData from './usecase/cleanSessionStorageData'
 import buildMakeAuthenticatedJsonRequest from './usecase/makeAuthenticatedJsonRequest'
+import buildGetSessionStateUpdates from './usecase/getSessionStateUpdates'
+import buildUpdateState from './usecase/updateState'
+import buildGetSessionState from './usecase/getSessionState'
 
 const storage = localStorage
+const webSocketStorage = {}
 
 export const makeJsonRequest = buildMakeJsonRequest()
 export const createSession = buildCreateSession(constants.URL_CREATE_SESSION, makeJsonRequest, storage)
@@ -15,3 +19,6 @@ export const makeAuthenticatedJsonRequest = buildMakeAuthenticatedJsonRequest(
     cleanSessionStorageData,
     storage
 )
+export const getSessionStateUpdates = buildGetSessionStateUpdates(webSocketStorage, storage)
+export const updateState = buildUpdateState(makeAuthenticatedJsonRequest)
+export const getSessionState = buildGetSessionState(makeAuthenticatedJsonRequest)

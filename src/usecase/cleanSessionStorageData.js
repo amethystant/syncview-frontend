@@ -6,5 +6,6 @@ export default function (storage) {
         storage.removeItem(constants.storageKeys.GUEST_ID)
         storage.removeItem(constants.storageKeys.SESSION_CODE)
         storage.removeItem(constants.storageKeys.FILE_URL)
+        storage.removeItem(constants.storageKeys.IS_HOST)
     }
 }

@@ -4,6 +4,8 @@ import 'video.js/dist/video-js.css'
 import React from 'react'
 import videojs from 'video.js'
 
+const PLAYER_POSITION_DIFFERENCE_MAX_MS = 200
+
 class VideoJs extends React.Component {
 
     constructor(props) {
@@ -18,11 +20,22 @@ class VideoJs extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        this.resetPlayer()
+        const oldSources = this.props.options.sources
+        const newSources = newProps.options.sources
+
+        if (!this.areSourceListsSame(oldSources, newSources)) {
+            this.resetPlayer()
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.initPlayer()
+        const oldSources = prevProps.options.sources
+        const newSources = this.props.options.sources
+        if (!this.areSourceListsSame(oldSources, newSources)) {
+            this.initPlayer()
+        } else if (!this.arePlayerStatesTheSame(prevProps, this.props)) {
+            this.updatePlayerState()
+        }
     }
 
     componentWillUnmount() {
@@ -32,6 +45,8 @@ class VideoJs extends React.Component {
     initPlayer() {
         this.player = videojs(this.videoNode, this.props.options)
         this.updateTimeControlVisibility()
+        this.updatePlayerState()
+        this.setUpPlayerListeners()
     }
 
     updateTimeControlVisibility() {
@@ -56,6 +71,52 @@ class VideoJs extends React.Component {
         }
     }
 
+    updatePlayerState() {
+        if (this.props.isPlaying && this.player.paused()) {
+            this.player.play()
+        } else if (!this.props.isPlaying && !this.player.paused()) {
+            this.player.pause()
+        }
+
+
+        if (this.isOutOfSync() && this.props.isPlaying) {
+            this.player.currentTime(this.getDesirablePositionMs() / 1000)
+        }
+    }
+
+    setUpPlayerListeners() {
+        const player = this.player
+
+        player.on('pause', () => {
+            if (!player.seeking()) {
+                this.props.onPause(player.currentTime() * 1000)
+            }
+        })
+
+        player.on('play', () => {
+            if (!player.seeking()) {
+                if (this.isOutOfSync() && this.props.isPlaying) {
+                    this.isAdjusting = true
+                    player.currentTime(this.getDesirablePositionMs() / 1000)
+                } else {
+                    this.props.onPlay(player.currentTime() * 1000)
+                }
+            }
+        })
+
+        player.on('seeked', () => {
+            if (!this.isAdjusting) {
+                this.props.onSeek(player.currentTime() * 1000)
+            } else {
+                if (this.isOutOfSync()) {
+                    this.player.currentTime(this.getDesirablePositionMs() / 1000)
+                } else {
+                    this.isAdjusting = false
+                }
+            }
+        })
+    }
+
     resetPlayer() {
         this.setState({
             videoKey: this.state.videoKey + 1
@@ -70,14 +131,66 @@ class VideoJs extends React.Component {
         }
     }
 
+    areSourceListsSame(oldSources, newSources) {
+        if (oldSources.length !== newSources.length) {
+            return false
+        }
+        const oldSrcUrls = oldSources.map(src => src.src).sort()
+        const newSrcUrls = newSources.map(src => src.src).sort()
+        let same = true
+        for (let i = 0; i < oldSources.length; i++) {
+            if (oldSrcUrls[i] !== newSrcUrls[i]) {
+                same = false
+                break
+            }
+        }
+
+        return same
+    }
+
+    arePlayerStatesTheSame(oldProps, newProps) {
+        if (oldProps.isPlaying !== newProps.isPlaying) {
+            return false
+        }
+
+        const oldPosition = oldProps.position
+        const newPosition = newProps.position
+        return oldPosition.position === newPosition.position && oldPosition.updateTs === newPosition.updateTs
+    }
+
+    getDesirablePositionMs() {
+        const position = this.props.position ?? {
+            position: 0,
+            updateTs: Date.now()
+        }
+
+        if (!this.props.isPlaying) {
+            return position.position
+        }
+
+        return position.position + (Date.now() - position.updateTs)
+    }
+
+    isOutOfSync() {
+        return Math.abs(this.getDesirablePositionMs() - this.player.currentTime() * 1000) >
+            PLAYER_POSITION_DIFFERENCE_MAX_MS
+    }
+
     render() {
         const overrideStyle = {
             width: '100%',
             height: '100%'
         }
         return (
-            <div ref={node => this.rootNode = node} data-vjs-player="" key={this.state.videoKey} style={overrideStyle}>
-                <video ref={node => this.videoNode = node} className="video-js video-js-wrapper-video" />
+            <div
+                ref={node => this.rootNode = node}
+                data-vjs-player=""
+                key={this.state.videoKey}
+                style={overrideStyle}>
+
+                <video
+                    ref={node => this.videoNode = node}
+                    className="video-js video-js-wrapper-video"/>
             </div>
         )
     }
