@@ -120,7 +120,7 @@ class PlaybackScreen extends React.Component {
                         position={this.state.position}
                         onPause={position => this.onPlayerStateChange(position, false)}
                         onPlay={position => this.onPlayerStateChange(position, true)}
-                        onSeek={position => this.onPlayerStateChange(position)}/>
+                        onUserSeek={position => this.onPlayerStateChange(position)}/>
                 </div>
             </div>
         )

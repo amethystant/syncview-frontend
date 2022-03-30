@@ -4,7 +4,7 @@ import 'video.js/dist/video-js.css'
 import React from 'react'
 import videojs from 'video.js'
 
-const PLAYER_POSITION_DIFFERENCE_MAX_MS = 200
+const PLAYER_POSITION_DIFFERENCE_MAX_MS = 300
 
 class VideoJs extends React.Component {
 
@@ -80,6 +80,7 @@ class VideoJs extends React.Component {
 
 
         if (this.isOutOfSync() && this.props.isPlaying) {
+            this.isAdjusting = true
             this.player.currentTime(this.getDesirablePositionMs() / 1000)
         }
     }
@@ -106,7 +107,7 @@ class VideoJs extends React.Component {
 
         player.on('seeked', () => {
             if (!this.isAdjusting) {
-                this.props.onSeek(player.currentTime() * 1000)
+                this.props.onUserSeek(player.currentTime() * 1000)
             } else {
                 if (this.isOutOfSync()) {
                     this.player.currentTime(this.getDesirablePositionMs() / 1000)
