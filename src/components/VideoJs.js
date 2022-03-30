@@ -31,6 +31,7 @@ class VideoJs extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         const oldSources = prevProps.options.sources
         const newSources = this.props.options.sources
+        this.updateTimeControlVisibility()
         if (!this.areSourceListsSame(oldSources, newSources)) {
             this.initPlayer()
         } else if (!this.arePlayerStatesTheSame(prevProps, this.props)) {
@@ -69,6 +70,11 @@ class VideoJs extends React.Component {
         if (remainingTimeElement) {
             remainingTimeElement.style.display = this.props.showRemainingTimeDisplay ? 'block' : 'none'
         }
+
+        let progressBarElement = this.rootNode.getElementsByClassName('vjs-progress-control').item(0)
+        if (progressBarElement) {
+            progressBarElement.style.display = this.props.isSeekingAllowed ? 'block' : 'none'
+        }
     }
 
     updatePlayerState() {
@@ -77,7 +83,6 @@ class VideoJs extends React.Component {
         } else if (!this.props.isPlaying && !this.player.paused()) {
             this.player.pause()
         }
-
 
         if (this.isOutOfSync() && this.props.isPlaying) {
             this.isAdjusting = true

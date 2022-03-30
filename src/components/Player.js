@@ -28,6 +28,7 @@ class Player extends React.Component {
                     showTimeDivider={true}
                     showDurationDisplay={true}
                     showRemainingTimeDisplay={false}
+                    isSeekingAllowed={this.props.isSeekingAllowed}
                     isPlaying={this.props.isPlaying}
                     position={this.props.position}
                     onPause={this.props.onPause}

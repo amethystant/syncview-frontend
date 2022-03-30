@@ -15,7 +15,7 @@ class PlaybackScreen extends React.Component {
             isHost: getLocalStorageValue(constants.storageKeys.IS_HOST) === 'true',
             sessionName: '',
             guestName: '',
-            isControlsGranted: false,
+            isControlsGranted: true,
             expirationTs: 40000000000,
             isPlaying: false,
             position: {
@@ -27,7 +27,8 @@ class PlaybackScreen extends React.Component {
             admissionRequests: [],
             isControlsAllowed: false,
             isWaitingRoom: true,
-            isInitialStateLoaded: false
+            isInitialStateLoaded: false,
+            isForcePaused: false
         }
 
         this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
@@ -73,12 +74,23 @@ class PlaybackScreen extends React.Component {
             admissionRequests: remoteState.admissionRequests ?? [],
             isControlsAllowed: remoteState.isControlsAllowed ?? false,
             isWaitingRoom: remoteState.isWaitingRoom ?? true,
-            isInitialStateLoaded: true
+            isInitialStateLoaded: true,
+            isForcePaused: !remoteState.isControlsGranted ? this.state.isForcePaused : false
         })
     }
 
     onPlayerStateChange(position, isPlaying) {
-        if (!this.state.isInitialStateLoaded || !this.state.isControlsGranted) {
+        if (!this.state.isInitialStateLoaded) {
+            return
+        }
+
+        if (!this.state.isControlsGranted) {
+            // todo show message
+            if (typeof isPlaying === 'boolean') {
+                this.setState({
+                    isForcePaused: isPlaying !== this.state.isPlaying ? !isPlaying : false
+                })
+            }
             return
         }
 
@@ -116,7 +128,8 @@ class PlaybackScreen extends React.Component {
                 <div className="playback-screen-player-div">
                     <Player
                         videoUrl={this.state.videoUrl}
-                        isPlaying={this.state.isPlaying}
+                        isSeekingAllowed={this.state.isControlsGranted}
+                        isPlaying={this.state.isPlaying && !this.state.isForcePaused}
                         position={this.state.position}
                         onPause={position => this.onPlayerStateChange(position, false)}
                         onPlay={position => this.onPlayerStateChange(position, true)}
