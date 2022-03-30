@@ -34,7 +34,7 @@ class VideoJs extends React.Component {
         this.updateTimeControlVisibility()
         if (!this.areSourceListsSame(oldSources, newSources)) {
             this.initPlayer()
-        } else if (!this.arePlayerStatesTheSame(prevProps, this.props)) {
+        } else {
             this.updatePlayerState()
         }
     }
@@ -152,16 +152,6 @@ class VideoJs extends React.Component {
         }
 
         return same
-    }
-
-    arePlayerStatesTheSame(oldProps, newProps) {
-        if (oldProps.isPlaying !== newProps.isPlaying) {
-            return false
-        }
-
-        const oldPosition = oldProps.position
-        const newPosition = newProps.position
-        return oldPosition.position === newPosition.position && oldPosition.updateTs === newPosition.updateTs
     }
 
     getDesirablePositionMs() {
