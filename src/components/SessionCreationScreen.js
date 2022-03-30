@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import FilePicker from './FilePicker'
 import translations from '../translations'
-import {createSession} from '../useCases'
+import {createSession, setLocalStorageValue} from '../useCases'
 import routeNames from '../routeNames'
 import constants from '../constants'
 
@@ -46,7 +46,7 @@ class SessionCreationScreen extends React.Component {
 
         const fileDescription = 'aa' // todo make file description
         createSession(name, hostName, isWaitingRoom, isControlsAllowed, fileDescription)
-            .then(() => localStorage.setItem(constants.storageKeys.FILE_URL, fileUrl))
+            .then(() => setLocalStorageValue(constants.storageKeys.FILE_URL, fileUrl))
             .then(() => this.navigateToPlayback())
             .catch(error => {
                 console.log(error.toString())
@@ -60,7 +60,7 @@ class SessionCreationScreen extends React.Component {
     render() {
         return (
             <div>
-                <form className="session-creation-screen-form">
+                <form>
                     <input
                         name="name"
                         type="text"

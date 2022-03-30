@@ -3,16 +3,16 @@ import '../styles/component/PlaybackScreen.css'
 import React from 'react'
 import Player from './Player'
 import constants from '../constants'
-import {getSessionStateUpdates, updateState, getSessionState} from '../useCases'
+import {getSessionStateUpdates, updateState, getSessionState, getLocalStorageValue} from '../useCases'
 
 class PlaybackScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            videoUrl: localStorage.getItem(constants.storageKeys.FILE_URL),
-            sessionCode: localStorage.getItem(constants.storageKeys.SESSION_CODE),
-            guestId: localStorage.getItem(constants.storageKeys.GUEST_ID),
-            isHost: localStorage.getItem(constants.storageKeys.IS_HOST) === 'true',
+            videoUrl: getLocalStorageValue(constants.storageKeys.FILE_URL),
+            sessionCode: getLocalStorageValue(constants.storageKeys.SESSION_CODE),
+            guestId: getLocalStorageValue(constants.storageKeys.GUEST_ID),
+            isHost: getLocalStorageValue(constants.storageKeys.IS_HOST) === 'true',
             sessionName: '',
             guestName: '',
             isControlsGranted: false,
