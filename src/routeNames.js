@@ -1,7 +1,9 @@
 const routeNames = {
     welcome: '/',
     playback: '/playback',
-    sessionCreation: '/create'
+    sessionCreation: '/create',
+    waitingRoom: '/waiting-room',
+    videoFileSelection: '/file-selection'
 }
 
 export default routeNames

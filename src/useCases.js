@@ -1,5 +1,3 @@
-import constants from './constants'
-
 import buildGetLocalStorageValue from './usecase/getLocalStorageValue'
 import buildSetLocalStorageValue from './usecase/setLocalStorageValue'
 import buildMakeJsonRequest from './usecase/makeJsonRequest'
@@ -9,6 +7,7 @@ import buildMakeAuthenticatedJsonRequest from './usecase/makeAuthenticatedJsonRe
 import buildGetSessionStateUpdates from './usecase/getSessionStateUpdates'
 import buildUpdateState from './usecase/updateState'
 import buildGetSessionState from './usecase/getSessionState'
+import buildAccessSession from './usecase/accessSession'
 
 const storage = localStorage
 const webSocketStorage = {}
@@ -16,7 +15,7 @@ const webSocketStorage = {}
 export const getLocalStorageValue = buildGetLocalStorageValue(storage)
 export const setLocalStorageValue = buildSetLocalStorageValue(storage)
 export const makeJsonRequest = buildMakeJsonRequest()
-export const createSession = buildCreateSession(constants.URL_CREATE_SESSION, makeJsonRequest, storage)
+export const createSession = buildCreateSession(makeJsonRequest, storage)
 export const cleanSessionStorageData = buildCleanSessionStorageData(storage)
 export const makeAuthenticatedJsonRequest = buildMakeAuthenticatedJsonRequest(
     makeJsonRequest,
@@ -26,3 +25,4 @@ export const makeAuthenticatedJsonRequest = buildMakeAuthenticatedJsonRequest(
 export const getSessionStateUpdates = buildGetSessionStateUpdates(webSocketStorage, storage)
 export const updateState = buildUpdateState(makeAuthenticatedJsonRequest)
 export const getSessionState = buildGetSessionState(makeAuthenticatedJsonRequest)
+export const accessSession = buildAccessSession(makeJsonRequest, storage)

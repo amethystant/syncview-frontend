@@ -1,13 +1,13 @@
 import constants from '../constants'
 
-export default function (url, makeJsonPostRequest, storage) {
+export default function (makeJsonRequest, storage) {
     return (sessionName, hostNickname, isWaitingRoom, isControlsAllowed, fileDescription) => {
-        return makeJsonPostRequest('POST', url, null, {
-            'name': sessionName,
-            'hostName': hostNickname,
-            'isWaitingRoom': isWaitingRoom,
-            'isControlsAllowed': isControlsAllowed,
-            'fileDescription': fileDescription
+        return makeJsonRequest('POST', constants.backendUrls.URL_CREATE_SESSION, null, {
+            name: sessionName,
+            hostName: hostNickname,
+            isWaitingRoom: isWaitingRoom,
+            isControlsAllowed: isControlsAllowed,
+            fileDescription: fileDescription
         }).then(data => {
             const {token, guestId, sessionCode} = data
             storage.setItem(constants.storageKeys.TOKEN, token)

@@ -5,7 +5,10 @@ const languages = {
             backHome: 'Back to homepage'
         },
         welcome: {
-            create: 'Create session'
+            create: 'Create session',
+            sessionCode: 'Session code',
+            guestName: 'Nickname',
+            join: 'Join'
         },
         sessionCreation: {
             sessionName: 'Session name',
@@ -13,6 +16,12 @@ const languages = {
             waitingRoom: 'Waiting room',
             controlsAllowed: 'Controls allowed',
             create: 'Create session'
+        },
+        waitingRoom: {
+            title: 'Waiting for admission by host...'
+        },
+        videoFileSelection: {
+            title: (sessionName) => `Welcome to ${sessionName}!`
         }
     }
 }

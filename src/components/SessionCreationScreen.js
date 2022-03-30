@@ -14,7 +14,7 @@ class SessionCreationScreen extends React.Component {
             name: '',
             hostName: '',
             isWaitingRoom: false,
-            isControlsAllowed: false,
+            isControlsAllowed: true,
             fileUrl: null
         }
 

@@ -1,10 +1,12 @@
 import React from 'react'
 import {Route, Routes} from 'react-router-dom'
+import routeNames from '../routeNames'
 import PlaybackScreen from './PlaybackScreen'
 import WelcomeScreen from './WelcomeScreen'
 import SessionCreationScreen from './SessionCreationScreen'
 import NotFoundScreen from './NotFoundScreen'
-import routeNames from '../routeNames'
+import WaitingRoomScreen from './WaitingRoomScreen'
+import VideoFileSelectionScreen from './VideoFileSelectionScreen'
 
 class App extends React.Component {
 
@@ -15,6 +17,8 @@ class App extends React.Component {
                     <Route path={routeNames.welcome} element={<WelcomeScreen/>}/>
                     <Route path={routeNames.sessionCreation} element={<SessionCreationScreen/>}/>
                     <Route path={routeNames.playback} element={<PlaybackScreen/>}/>
+                    <Route path={routeNames.waitingRoom} element={<WaitingRoomScreen/>}/>
+                    <Route path={routeNames.videoFileSelection} element={<VideoFileSelectionScreen/>} />
                     <Route path="*" element={<NotFoundScreen/>}/>
                 </Routes>
             </div>
