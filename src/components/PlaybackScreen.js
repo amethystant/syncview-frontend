@@ -34,6 +34,7 @@ class PlaybackScreen extends React.Component {
         }
 
         this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
+        this.onPlayerError = this.onPlayerError.bind(this)
     }
 
     componentDidMount() {
@@ -126,6 +127,10 @@ class PlaybackScreen extends React.Component {
             })
     }
 
+    onPlayerError() {
+        this.props.navigate(routeNames.videoFileSelection)
+    }
+
     componentWillUnmount() {
         if (this.sessionStateUpdatesJob) {
             this.sessionStateUpdatesJob.cancel()
@@ -144,7 +149,8 @@ class PlaybackScreen extends React.Component {
                         position={this.state.position}
                         onPause={position => this.onPlayerStateChange(position, false)}
                         onPlay={position => this.onPlayerStateChange(position, true)}
-                        onUserSeek={position => this.onPlayerStateChange(position)}/>
+                        onUserSeek={position => this.onPlayerStateChange(position)}
+                        onPlayerError={this.onPlayerError}/>
                 </div>
             </div>
         )

@@ -121,6 +121,10 @@ class VideoJs extends React.Component {
                 }
             }
         })
+
+        player.on('error', () => {
+            this.props.onPlayerError()
+        })
     }
 
     resetPlayer() {
