@@ -73,7 +73,7 @@ class VideoJs extends React.Component {
 
         let progressBarElement = this.rootNode.getElementsByClassName('vjs-progress-control').item(0)
         if (progressBarElement) {
-            progressBarElement.style.display = this.props.isSeekingAllowed ? 'block' : 'none'
+            progressBarElement.style.display = this.props.isSeekingAllowed ? 'flex' : 'none'
         }
     }
 
