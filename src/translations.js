@@ -22,6 +22,10 @@ const languages = {
         },
         videoFileSelection: {
             title: (sessionName) => `Welcome to ${sessionName}!`
+        },
+        noAccess: {
+            title: 'The session has either expired or you don\'t have access to it.',
+            backHome: 'Back to homepage'
         }
     }
 }

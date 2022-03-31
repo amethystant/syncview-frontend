@@ -1,9 +1,11 @@
 import '../styles/component/PlaybackScreen.css'
 
 import React from 'react'
+import {useNavigate} from 'react-router-dom'
 import Player from './Player'
 import constants from '../constants'
 import {getSessionStateUpdates, updateState, getSessionState, getLocalStorageValue} from '../useCases'
+import routeNames from '../routeNames'
 
 class PlaybackScreen extends React.Component {
     constructor(props) {
@@ -36,26 +38,35 @@ class PlaybackScreen extends React.Component {
 
     componentDidMount() {
         const {sessionCode, guestId} = this.state
-        if (!this.state.videoUrl || !sessionCode || !guestId) {
-            // todo error
+        if (!sessionCode || !guestId) {
+            this.props.navigate(routeNames.noAccess)
             return
+        }
+
+        if (!this.state.videoUrl) {
+            this.props.navigate(routeNames.videoFileSelection)
         }
 
         this.sessionStateUpdatesJob =
             getSessionStateUpdates(remoteState => this.onRemoteStateChange(remoteState), () => {
-                // todo ws closed
+                this.props.navigate(routeNames.noAccess)
             })
 
         getSessionState()
             .then(remoteState => this.onRemoteStateChange(remoteState))
             .catch(error => {
-                // todo error
+                if (error.isAuthorization) {
+                    this.props.navigate(routeNames.noAccess)
+                    return
+                }
+
+                // todo on other errors
             })
     }
 
     onRemoteStateChange(remoteState) {
         if (remoteState.isAwaitingAdmission) {
-            // todo navigate to waiting room
+            this.props.navigate(routeNames.waitingRoom)
             return
         }
 
@@ -140,4 +151,7 @@ class PlaybackScreen extends React.Component {
     }
 }
 
-export default PlaybackScreen
+export default props => {
+    const navigate = useNavigate()
+    return <PlaybackScreen  {...props} navigate={navigate}/>
+}

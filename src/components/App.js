@@ -7,6 +7,7 @@ import SessionCreationScreen from './SessionCreationScreen'
 import NotFoundScreen from './NotFoundScreen'
 import WaitingRoomScreen from './WaitingRoomScreen'
 import VideoFileSelectionScreen from './VideoFileSelectionScreen'
+import NoAccessScreen from './NoAccessScreen'
 
 class App extends React.Component {
 
@@ -18,7 +19,8 @@ class App extends React.Component {
                     <Route path={routeNames.sessionCreation} element={<SessionCreationScreen/>}/>
                     <Route path={routeNames.playback} element={<PlaybackScreen/>}/>
                     <Route path={routeNames.waitingRoom} element={<WaitingRoomScreen/>}/>
-                    <Route path={routeNames.videoFileSelection} element={<VideoFileSelectionScreen/>} />
+                    <Route path={routeNames.videoFileSelection} element={<VideoFileSelectionScreen/>}/>
+                    <Route path={routeNames.noAccess} element={<NoAccessScreen/>}/>
                     <Route path="*" element={<NotFoundScreen/>}/>
                 </Routes>
             </div>

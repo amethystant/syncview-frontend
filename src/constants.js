@@ -16,7 +16,7 @@ export default {
         URL_WEBSOCKET: (sessionCode, token) => createWebsocketUrl(config.URL_BACKEND, `${sessionCode}?token=${token}`),
         URL_CREATE_SESSION: createUrl(config.URL_BACKEND, '/session/create'),
         URL_UPDATE_STATE: (sessionCode) => createUrl(config.URL_BACKEND, `session/${sessionCode}/state`),
-        URL_GET_STATE: (sessionCode) => createUrl(config.URL_BACKEND, `session/${sessionCode}`),
+        URL_GET_STATE: (sessionCode) => createUrl(config.URL_BACKEND, `session/${sessionCode}/state`),
         URL_ACCESS_SESSION: (sessionCode) => createUrl(config.URL_BACKEND, `session/${sessionCode}/access`)
     },
     storageKeys: {

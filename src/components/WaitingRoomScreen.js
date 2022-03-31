@@ -11,6 +11,8 @@ class WaitingRoomScreen extends React.Component {
             if (remoteState.isAwaitingAdmission !== true) {
                 this.props.navigate(routeNames.videoFileSelection)
             }
+        }, () => {
+            this.props.navigate(routeNames.noAccess)
         })
     }
 

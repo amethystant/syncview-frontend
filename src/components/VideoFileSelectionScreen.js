@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import FilePicker from './FilePicker'
 import routeNames from '../routeNames'
-import {setLocalStorageValue} from '../useCases'
+import {getSessionState, setLocalStorageValue} from '../useCases'
 import constants from '../constants'
 
 class VideoFileSelectionScreen extends React.Component {
@@ -14,7 +14,20 @@ class VideoFileSelectionScreen extends React.Component {
     }
 
     componentDidMount() {
-        // todo check if user is on the right screen
+        getSessionState()
+            .then(remoteState => {
+                if (remoteState.isAwaitingAdmission) {
+                    this.props.navigate(routeNames.waitingRoom)
+                }
+            })
+            .catch(error => {
+                if (error.isAuthorization) {
+                    this.props.navigate(routeNames.noAccess)
+                    return
+                }
+
+                // todo handle other error
+            })
     }
 
     onFileChosen(url) {
