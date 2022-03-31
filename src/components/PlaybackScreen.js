@@ -49,7 +49,7 @@ class PlaybackScreen extends React.Component {
 
         this.sessionStateUpdatesJob =
             getSessionStateUpdates(remoteState => this.onRemoteStateChange(remoteState), () => {
-                this.props.navigate(routeNames.noAccess)
+                // todo put page into an error state (do not navigate away, this gets triggered when leaving the page as well)
             })
 
         getSessionState()

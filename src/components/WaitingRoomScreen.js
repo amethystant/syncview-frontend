@@ -12,7 +12,7 @@ class WaitingRoomScreen extends React.Component {
                 this.props.navigate(routeNames.videoFileSelection)
             }
         }, () => {
-            this.props.navigate(routeNames.noAccess)
+            // todo put page into an error state (do not navigate away, this gets triggered when leaving the page as well)
         })
     }
 
