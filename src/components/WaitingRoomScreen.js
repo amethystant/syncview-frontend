@@ -1,15 +1,13 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import translations from '../translations'
-import {getLocalStorageValue, getSessionStateUpdates} from '../useCases'
-import constants from '../constants'
+import {getSessionStateUpdates} from '../useCases'
 import routeNames from '../routeNames'
 
 class WaitingRoomScreen extends React.Component {
 
     componentDidMount() {
-        const sessionCode = getLocalStorageValue(constants.storageKeys.SESSION_CODE)
-        this.sessionStateUpdatesJob = getSessionStateUpdates(sessionCode, remoteState => {
+        this.sessionStateUpdatesJob = getSessionStateUpdates(remoteState => {
             if (remoteState.isAwaitingAdmission !== true) {
                 this.props.navigate(routeNames.videoFileSelection)
             }

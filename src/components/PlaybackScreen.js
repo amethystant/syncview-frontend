@@ -42,11 +42,11 @@ class PlaybackScreen extends React.Component {
         }
 
         this.sessionStateUpdatesJob =
-            getSessionStateUpdates(sessionCode, remoteState => this.onRemoteStateChange(remoteState), () => {
+            getSessionStateUpdates(remoteState => this.onRemoteStateChange(remoteState), () => {
                 // todo ws closed
             })
 
-        getSessionState(sessionCode)
+        getSessionState()
             .then(remoteState => this.onRemoteStateChange(remoteState))
             .catch(error => {
                 // todo error
@@ -109,7 +109,7 @@ class PlaybackScreen extends React.Component {
             isPlaying: isPlaying
         }
 
-        updateState(this.state.sessionCode, outboundState)
+        updateState(outboundState)
             .catch(error => {
                 // todo handle error
             })

@@ -2,11 +2,12 @@ import { v4 as uuidv4 } from 'uuid'
 import constants from '../constants'
 
 export default function (webSocketStorage, storage) {
-    return (sessionCode, updateListener, closeListener) => {
+    return (updateListener, closeListener) => {
         if (typeof updateListener !== 'function') {
             throw new Error('Listener not a function.')
         }
 
+        const sessionCode = storage.getItem(constants.storageKeys.SESSION_CODE)
         let webSocket = webSocketStorage[sessionCode]
         if (!webSocket || webSocket.readyState > 1) {
             const token = storage.getItem(constants.storageKeys.TOKEN)
@@ -24,6 +25,9 @@ export default function (webSocketStorage, storage) {
             const onClose = () => {
                 for (let key in webSocket.closeListeners) {
                     webSocket.closeListeners[key]()
+                }
+                if (webSocketStorage[sessionCode] === webSocket) {
+                    delete webSocketStorage[sessionCode]
                 }
             }
 

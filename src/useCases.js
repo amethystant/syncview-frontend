@@ -23,6 +23,6 @@ export const makeAuthenticatedJsonRequest = buildMakeAuthenticatedJsonRequest(
     storage
 )
 export const getSessionStateUpdates = buildGetSessionStateUpdates(webSocketStorage, storage)
-export const updateState = buildUpdateState(makeAuthenticatedJsonRequest)
-export const getSessionState = buildGetSessionState(makeAuthenticatedJsonRequest)
+export const updateState = buildUpdateState(makeAuthenticatedJsonRequest, storage)
+export const getSessionState = buildGetSessionState(makeAuthenticatedJsonRequest, storage)
 export const accessSession = buildAccessSession(makeJsonRequest, storage)
