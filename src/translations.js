@@ -23,6 +23,13 @@ const languages = {
         videoFileSelection: {
             title: (sessionName) => `Welcome to ${sessionName}!`
         },
+        playback: {
+            sessionCode: (sessionCode) => `This is your session code: ${sessionCode.toUpperCase()}`,
+            copyLink: 'Copy link to share'
+        },
+        joinSessionRedirect: {
+            title: 'Redirecting...'
+        },
         noAccess: {
             title: 'The session has either expired or you don\'t have access to it.',
             backHome: 'Back to homepage'

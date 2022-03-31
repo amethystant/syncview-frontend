@@ -1,4 +1,5 @@
 import config from './config'
+import routeNames from './routeNames'
 
 function createUrl(baseUrl, path) {
     const url = new URL(path, baseUrl)
@@ -25,5 +26,6 @@ export default {
         TOKEN: 'TOKEN',
         FILE_URL: 'FILE_URL',
         IS_HOST: 'IS_HOST'
-    }
+    },
+    URL_SHARED_SESSION: (sessionCode) => createUrl(config.URL_FRONTEND, routeNames.joinSessionRedirect(sessionCode))
 }

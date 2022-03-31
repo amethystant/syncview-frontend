@@ -8,8 +8,10 @@ import buildGetSessionStateUpdates from './usecase/getSessionStateUpdates'
 import buildUpdateState from './usecase/updateState'
 import buildGetSessionState from './usecase/getSessionState'
 import buildAccessSession from './usecase/accessSession'
+import buildPutLinkToClipboard from './usecase/putLinkToClipboard'
 
 const storage = localStorage
+const clipboard = navigator.clipboard
 const webSocketStorage = {}
 
 export const getLocalStorageValue = buildGetLocalStorageValue(storage)
@@ -26,3 +28,4 @@ export const getSessionStateUpdates = buildGetSessionStateUpdates(webSocketStora
 export const updateState = buildUpdateState(makeAuthenticatedJsonRequest, storage)
 export const getSessionState = buildGetSessionState(makeAuthenticatedJsonRequest, storage)
 export const accessSession = buildAccessSession(makeJsonRequest, storage)
+export const putLinkToClipboard = buildPutLinkToClipboard(clipboard, storage)

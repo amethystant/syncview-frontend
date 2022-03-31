@@ -2,7 +2,8 @@ import React from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import routeNames from '../routeNames'
 import translations from '../translations'
-import {accessSession} from '../useCases'
+import {accessSession, getLocalStorageValue} from '../useCases'
+import constants from '../constants'
 
 class WelcomeScreen extends React.Component {
 
@@ -15,6 +16,15 @@ class WelcomeScreen extends React.Component {
 
         this.onInputChange = this.onInputChange.bind(this)
         this.onJoinClicked = this.onJoinClicked.bind(this)
+    }
+
+    componentDidMount() {
+        const sessionCode = getLocalStorageValue(constants.storageKeys.SESSION_CODE)
+        if (sessionCode) {
+            this.setState({
+                sessionCode: sessionCode.toUpperCase()
+            })
+        }
     }
 
     onInputChange(event) {
@@ -57,6 +67,7 @@ class WelcomeScreen extends React.Component {
                         type="text"
                         value={this.state.sessionCode}
                         onChange={this.onInputChange}
+                        style={{textTransform: 'uppercase'}}
                         placeholder={translations.welcome.sessionCode}/>
                     <br/>
                     <input
