@@ -4,11 +4,15 @@ export default function () {
             'Content-Type': 'application/json'
         }
 
-        return fetch(url, {
+        const config = {
             method: method,
-            headers: {...defaultHeaders, ...headers},
-            body: JSON.stringify(jsonPayload)
-        }).then(response => {
+            headers: {...defaultHeaders, ...headers}
+        }
+
+        if (jsonPayload) {
+            config.body = JSON.stringify(jsonPayload)
+        }
+        return fetch(url, config).then(response => {
             if (!response.ok) {
                 const error = new Error('Request failed')
                 if ([401, 404].includes(response.status)) {
