@@ -20,8 +20,8 @@ class PlaybackScreen extends React.Component {
         this.state = {
             videoUrl: getLocalStorageValue(constants.storageKeys.FILE_URL),
             sessionCode: getLocalStorageValue(constants.storageKeys.SESSION_CODE),
-            guestId: getLocalStorageValue(constants.storageKeys.GUEST_ID),
-            isHost: getLocalStorageValue(constants.storageKeys.IS_HOST) === 'true',
+            guestId: null,
+            isHost: false,
             sessionName: '',
             guestName: '',
             isControlsGranted: true,
@@ -46,8 +46,8 @@ class PlaybackScreen extends React.Component {
     }
 
     componentDidMount() {
-        const {sessionCode, guestId} = this.state
-        if (!sessionCode || !guestId) {
+        const {sessionCode} = this.state
+        if (!sessionCode) {
             this.props.navigate(routeNames.noAccess)
             return
         }
@@ -79,9 +79,10 @@ class PlaybackScreen extends React.Component {
             return
         }
 
-        const thisGuest = remoteState.guests.find(guest => guest.id === this.state.guestId, this)
+        const thisGuest = remoteState.guests.find(guest => guest.id === remoteState.guestId, this)
 
         this.setState({
+            guestId: remoteState.guestId,
             isHost: thisGuest.isHost,
             sessionName: remoteState.name,
             guestName: thisGuest.name,

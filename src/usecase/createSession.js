@@ -11,9 +11,7 @@ export default function (makeJsonRequest, storage) {
         }).then(data => {
             const {token, guestId, sessionCode} = data
             storage.setItem(constants.storageKeys.TOKEN, token)
-            storage.setItem(constants.storageKeys.GUEST_ID, guestId)
             storage.setItem(constants.storageKeys.SESSION_CODE, sessionCode)
-            storage.setItem(constants.storageKeys.IS_HOST, 'true')
             return {guestId, sessionCode}
         })
     }
