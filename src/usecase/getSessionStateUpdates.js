@@ -11,7 +11,14 @@ export default function (webSocketStorage, storage) {
         let webSocket = webSocketStorage[sessionCode]
         if (!webSocket || webSocket.readyState > 1) {
             const token = storage.getItem(constants.storageKeys.TOKEN)
-            webSocket = new WebSocket(constants.backendUrls.URL_WEBSOCKET(sessionCode, token))
+            try {
+                webSocket = new WebSocket(constants.backendUrls.URL_WEBSOCKET(sessionCode, token))
+            } catch (error) {
+                if (closeListener) {
+                    closeListener()
+                }
+                return
+            }
             webSocket.listeners = {}
             webSocket.closeListeners = {}
 
