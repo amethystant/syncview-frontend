@@ -37,6 +37,14 @@ const languages = {
             elevate: 'Make co-host',
             kick: 'Kick'
         },
+        playbackSessionSettings: {
+            open: 'Open session settings',
+            close: 'Close',
+            sessionName: 'Session name',
+            waitingRoom: 'Waiting room',
+            controlsAllowed: 'Controls allowed',
+            save: 'Save'
+        },
         joinSessionRedirect: {
             title: 'Redirecting...'
         },

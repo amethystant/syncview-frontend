@@ -12,6 +12,7 @@ import {
 } from '../useCases'
 import routeNames from '../routeNames'
 import PlaybackSessionDetails from './PlaybackSessionDetails'
+import PlaybackSessionSettings from './PlaybackSessionSettings'
 
 class PlaybackScreen extends React.Component {
     constructor(props) {
@@ -146,6 +147,12 @@ class PlaybackScreen extends React.Component {
     }
 
     render() {
+        const settingsItem = this.state.isHost ? (
+            <PlaybackSessionSettings
+                sessionName={this.state.sessionName}
+                isWaitingRoom={this.state.isWaitingRoom}
+                isControlsAllowed={this.state.isControlsAllowed}/>
+        ) : ''
         return (
             <div className="playback-screen-root">
                 <div className="playback-screen-player-div">
@@ -166,6 +173,7 @@ class PlaybackScreen extends React.Component {
                         guestId={this.state.guestId}
                         guests={this.state.guests}
                         admissionRequests={this.state.admissionRequests}/>
+                    {settingsItem}
                 </div>
             </div>
         )
