@@ -8,11 +8,10 @@ import {
     getSessionStateUpdates,
     updateState,
     getSessionState,
-    getLocalStorageValue,
-    putLinkToClipboard
+    getLocalStorageValue
 } from '../useCases'
 import routeNames from '../routeNames'
-import translations from '../translations'
+import PlaybackSessionDetails from './PlaybackSessionDetails'
 
 class PlaybackScreen extends React.Component {
     constructor(props) {
@@ -42,7 +41,6 @@ class PlaybackScreen extends React.Component {
 
         this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
         this.onPlayerError = this.onPlayerError.bind(this)
-        this.onCopyLinkClick = this.onCopyLinkClick.bind(this)
     }
 
     componentDidMount() {
@@ -140,16 +138,6 @@ class PlaybackScreen extends React.Component {
         this.props.navigate(routeNames.videoFileSelection)
     }
 
-    onCopyLinkClick() {
-        putLinkToClipboard()
-            .then(() => {
-                // todo show success message
-            })
-            .catch(error => {
-                // todo show error
-            })
-    }
-
     componentWillUnmount() {
         if (this.sessionStateUpdatesJob) {
             this.sessionStateUpdatesJob.cancel()
@@ -172,8 +160,7 @@ class PlaybackScreen extends React.Component {
                         onPlayerError={this.onPlayerError}/>
                 </div>
                 <div className="playback-screen-overlay-div">
-                    <p>{translations.playback.sessionCode(this.state.sessionCode)}</p>
-                    <button type="button" onClick={this.onCopyLinkClick}>{translations.playback.copyLink}</button>
+                    <PlaybackSessionDetails sessionCode={this.state.sessionCode}/>
                 </div>
             </div>
         )
