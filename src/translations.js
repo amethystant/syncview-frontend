@@ -23,9 +23,19 @@ const languages = {
         videoFileSelection: {
             title: (sessionName) => `Welcome to ${sessionName}!`
         },
-        playback: {
+        playbackSessionDetails: {
             sessionCode: (sessionCode) => `This is your session code: ${sessionCode.toUpperCase()}`,
-            copyLink: 'Copy link to share'
+            copyLink: 'Copy link to share',
+            guestListTitle: 'Guests:',
+            admissionRequestsTitle: 'Admission requests:'
+        },
+        guestListItem: {
+            onlineLabel: 'Online',
+            hostLabel: 'Host',
+            currentGuestLabel: 'You',
+            admit: 'Admit to session',
+            elevate: 'Make co-host',
+            kick: 'Kick'
         },
         joinSessionRedirect: {
             title: 'Redirecting...'

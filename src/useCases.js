@@ -9,6 +9,9 @@ import buildUpdateState from './usecase/updateState'
 import buildGetSessionState from './usecase/getSessionState'
 import buildAccessSession from './usecase/accessSession'
 import buildPutLinkToClipboard from './usecase/putLinkToClipboard'
+import buildAdmitGuest from './usecase/admitGuest'
+import buildElevateGuest from './usecase/elevateGuest'
+import buildKickGuest from './usecase/kickGuest'
 
 const storage = localStorage
 const clipboard = navigator.clipboard
@@ -29,3 +32,6 @@ export const updateState = buildUpdateState(makeAuthenticatedJsonRequest, storag
 export const getSessionState = buildGetSessionState(makeAuthenticatedJsonRequest, storage)
 export const accessSession = buildAccessSession(makeJsonRequest, storage)
 export const putLinkToClipboard = buildPutLinkToClipboard(clipboard, storage)
+export const admitGuest = buildAdmitGuest(makeAuthenticatedJsonRequest, storage)
+export const elevateGuest = buildElevateGuest(makeAuthenticatedJsonRequest, storage)
+export const kickGuest = buildKickGuest(makeAuthenticatedJsonRequest, storage)

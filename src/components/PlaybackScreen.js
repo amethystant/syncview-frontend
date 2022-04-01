@@ -160,7 +160,12 @@ class PlaybackScreen extends React.Component {
                         onPlayerError={this.onPlayerError}/>
                 </div>
                 <div className="playback-screen-overlay-div">
-                    <PlaybackSessionDetails sessionCode={this.state.sessionCode}/>
+                    <PlaybackSessionDetails
+                        sessionCode={this.state.sessionCode}
+                        isHost={this.state.isHost}
+                        guestId={this.state.guestId}
+                        guests={this.state.guests}
+                        admissionRequests={this.state.admissionRequests}/>
                 </div>
             </div>
         )
