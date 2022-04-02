@@ -49,7 +49,10 @@ const languages = {
             sessionCode: sessionCode => `This is your session code: ${sessionCode.toUpperCase()}`,
             copyLink: 'Copy link to share',
             guestListTitle: 'Guests:',
-            admissionRequestsTitle: 'Admission requests:'
+            admissionRequestsTitle: 'Admission requests:',
+            errors: {
+                clipboard: 'Error: Could not put link into your clipboard.'
+            }
         },
         guestListItem: {
             onlineLabel: 'Online',
@@ -57,7 +60,10 @@ const languages = {
             currentGuestLabel: 'You',
             admit: 'Admit to session',
             elevate: 'Make co-host',
-            kick: 'Kick'
+            kick: 'Kick',
+            errors: {
+                genericOperation: 'Error: The operation failed.'
+            }
         },
         playbackSessionSettings: {
             open: 'Open session settings',
@@ -65,7 +71,10 @@ const languages = {
             sessionName: 'Session name',
             waitingRoom: 'Waiting room',
             controlsAllowed: 'Controls allowed',
-            save: 'Save'
+            save: 'Save',
+            errors: {
+                save: 'Error: Failed to save settings.'
+            }
         },
         joinSessionRedirect: {
             title: appName,

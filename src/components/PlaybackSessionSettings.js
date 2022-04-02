@@ -53,7 +53,7 @@ class PlaybackSessionSettings extends React.Component {
                 this.resetState()
             })
             .catch(error => {
-                // todo handle error
+                this.props.onError(translations.playbackSessionSettings.errors.save)
             })
     }
 

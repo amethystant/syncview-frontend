@@ -15,21 +15,21 @@ class GuestListItem extends React.Component {
     onAdmitClick() {
         admitGuest(this.props.guest.id)
             .catch(error => {
-                // todo handle error
+                this.props.onError(translations.guestListItem.errors.genericOperation)
             })
     }
 
     onElevateClick() {
         elevateGuest(this.props.guest.id)
             .catch(error => {
-                // todo handle error
+                this.props.onError(translations.guestListItem.errors.genericOperation)
             })
     }
 
     onKickClick() {
         kickGuest(this.props.guest.id)
             .catch(error => {
-                // todo handle error
+                this.props.onError(translations.guestListItem.errors.genericOperation)
             })
     }
 

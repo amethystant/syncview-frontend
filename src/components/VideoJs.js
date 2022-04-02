@@ -138,11 +138,9 @@ class VideoJs extends React.Component {
         })
     }
 
-    // todo find out if this is even necessary
     destroyPlayer() {
         if (this.player) {
             this.player.dispose()
-            this.player = null
         }
     }
 

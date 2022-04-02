@@ -49,6 +49,7 @@ class PlaybackScreen extends React.Component {
         this.onPlayOrPause = this.onPlayOrPause.bind(this)
         this.onUserSeek = this.onUserSeek.bind(this)
         this.onPlayerError = this.onPlayerError.bind(this)
+        this.onChildComponentError = this.onChildComponentError.bind(this)
     }
 
     componentDidMount() {
@@ -156,6 +157,10 @@ class PlaybackScreen extends React.Component {
         this.props.navigate(routeNames.videoFileSelection)
     }
 
+    onChildComponentError(errorMessage) {
+        this.showErrorMessage(errorMessage)
+    }
+
     fetchSingleStateUpdate() {
         getSessionState()
             .then(remoteState => this.onRemoteStateChange(remoteState))
@@ -216,7 +221,8 @@ class PlaybackScreen extends React.Component {
             <PlaybackSessionSettings
                 sessionName={this.state.sessionName}
                 isWaitingRoom={this.state.isWaitingRoom}
-                isControlsAllowed={this.state.isControlsAllowed}/>
+                isControlsAllowed={this.state.isControlsAllowed}
+                onError={this.onChildComponentError}/>
         ) : ''
 
         const reloadButton = this.state.error && this.state.error.showReloadButton ? (
@@ -247,7 +253,8 @@ class PlaybackScreen extends React.Component {
                         isHost={this.state.isHost}
                         guestId={this.state.guestId}
                         guests={this.state.guests}
-                        admissionRequests={this.state.admissionRequests}/>
+                        admissionRequests={this.state.admissionRequests}
+                        onError={this.onChildComponentError}/>
                     {settings}
                 </div>
                 <div className="playback-screen-error-overlay-div">

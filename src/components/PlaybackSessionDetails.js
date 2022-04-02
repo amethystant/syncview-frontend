@@ -13,11 +13,8 @@ class PlaybackSessionDetails extends React.Component {
 
     onCopyLinkClick() {
         putLinkToClipboard()
-            .then(() => {
-                // todo show success message
-            })
             .catch(error => {
-                // todo show error
+                this.props.onError(translations.playbackSessionDetails.errors.clipboard)
             })
     }
 
@@ -42,7 +39,8 @@ class PlaybackSessionDetails extends React.Component {
                     isCurrent={guest.id === this.props.guestId}
                     guest={guest}
                     isCurrentHost={this.props.isHost}
-                    isAwaitingAdmission={false}/>
+                    isAwaitingAdmission={false}
+                    onError={this.props.onError}/>
             )
         })
 
@@ -53,7 +51,8 @@ class PlaybackSessionDetails extends React.Component {
                     isCurrent={false}
                     guest={request}
                     isCurrentHost={this.props.isHost}
-                    isAwaitingAdmission={true}/>
+                    isAwaitingAdmission={true}
+                    onError={this.props.onError}/>
             )
         })
 
