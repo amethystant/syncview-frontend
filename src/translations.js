@@ -28,7 +28,7 @@ const languages = {
             heading: 'Waiting for admission by host...'
         },
         videoFileSelection: {
-            title: `Create Session - ${appName}`,
+            title: sessionName => `${sessionName} - ${appName}`,
             heading: sessionName => `Welcome to ${sessionName}!`
         },
         playback: {
