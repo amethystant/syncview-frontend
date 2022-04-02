@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route, Routes} from 'react-router-dom'
+import CssBaseline from '@mui/material/CssBaseline'
 import routeNames from '../routeNames'
 import PlaybackScreen from './PlaybackScreen'
 import WelcomeScreen from './WelcomeScreen'
@@ -15,6 +16,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
+                <CssBaseline enableColorScheme/>
                 <Routes>
                     <Route path={routeNames.welcome} element={<WelcomeScreen/>}/>
                     <Route path={routeNames.sessionCreation} element={<SessionCreationScreen/>}/>
