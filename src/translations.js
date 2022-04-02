@@ -1,16 +1,22 @@
+const appName = 'SyncView'
+
 const languages = {
     en: {
+        appName: appName,
         notFound: {
+            title: `Not Found - ${appName}`,
             notFound: 'Page not found',
             backHome: 'Back to homepage'
         },
         welcome: {
+            title: appName,
             create: 'Create session',
             sessionCode: 'Session code',
             guestName: 'Nickname',
             join: 'Join'
         },
         sessionCreation: {
+            title: `Create Session - ${appName}`,
             sessionName: 'Session name',
             hostName: 'Host nickname',
             waitingRoom: 'Waiting room',
@@ -18,13 +24,18 @@ const languages = {
             create: 'Create session'
         },
         waitingRoom: {
-            title: 'Waiting for admission by host...'
+            title: `Waiting room - ${appName}`,
+            heading: 'Waiting for admission by host...'
         },
         videoFileSelection: {
-            title: (sessionName) => `Welcome to ${sessionName}!`
+            title: `Create Session - ${appName}`,
+            heading: sessionName => `Welcome to ${sessionName}!`
+        },
+        playback: {
+            title: sessionName => `${sessionName} - ${appName}`
         },
         playbackSessionDetails: {
-            sessionCode: (sessionCode) => `This is your session code: ${sessionCode.toUpperCase()}`,
+            sessionCode: sessionCode => `This is your session code: ${sessionCode.toUpperCase()}`,
             copyLink: 'Copy link to share',
             guestListTitle: 'Guests:',
             admissionRequestsTitle: 'Admission requests:'
@@ -46,10 +57,12 @@ const languages = {
             save: 'Save'
         },
         joinSessionRedirect: {
-            title: 'Redirecting...'
+            title: appName,
+            heading: 'Redirecting...'
         },
         noAccess: {
-            title: 'The session has either expired or you don\'t have access to it.',
+            title: appName,
+            heading: 'The session has either expired or you don\'t have access to it.',
             backHome: 'Back to homepage'
         }
     }

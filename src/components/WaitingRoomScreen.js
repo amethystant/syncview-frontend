@@ -1,12 +1,13 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import translations from '../translations'
-import {getSessionStateUpdates} from '../useCases'
+import {getSessionStateUpdates, setDocumentTitle} from '../useCases'
 import routeNames from '../routeNames'
 
 class WaitingRoomScreen extends React.Component {
 
     componentDidMount() {
+        setDocumentTitle(translations.waitingRoom.title)
         this.sessionStateUpdatesJob = getSessionStateUpdates(remoteState => {
             if (remoteState.isAwaitingAdmission !== true) {
                 this.props.navigate(routeNames.videoFileSelection)
@@ -26,7 +27,7 @@ class WaitingRoomScreen extends React.Component {
     render() {
         return (
             <div>
-                <h1>{translations.waitingRoom.title}</h1>
+                <h1>{translations.waitingRoom.heading}</h1>
             </div>
         )
     }

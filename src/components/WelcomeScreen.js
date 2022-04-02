@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import routeNames from '../routeNames'
 import translations from '../translations'
-import {accessSession, getLocalStorageValue} from '../useCases'
+import {accessSession, getLocalStorageValue, setDocumentTitle} from '../useCases'
 import constants from '../constants'
 
 class WelcomeScreen extends React.Component {
@@ -19,6 +19,7 @@ class WelcomeScreen extends React.Component {
     }
 
     componentDidMount() {
+        setDocumentTitle(translations.welcome.title)
         const sessionCode = getLocalStorageValue(constants.storageKeys.SESSION_CODE)
         if (sessionCode) {
             this.setState({

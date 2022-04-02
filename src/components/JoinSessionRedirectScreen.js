@@ -1,13 +1,14 @@
 import React from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import translations from '../translations'
-import {setLocalStorageValue} from '../useCases'
+import {setDocumentTitle, setLocalStorageValue} from '../useCases'
 import constants from '../constants'
 import routeNames from '../routeNames'
 
 class JoinSessionRedirectScreen extends React.Component {
 
     componentDidMount() {
+        setDocumentTitle(translations.joinSessionRedirect.title)
         setLocalStorageValue(constants.storageKeys.SESSION_CODE, this.props.params.sessionCode)
         setTimeout(() => {
             this.props.navigate(routeNames.welcome)
@@ -15,7 +16,7 @@ class JoinSessionRedirectScreen extends React.Component {
     }
 
     render() {
-        return <h1>{translations.joinSessionRedirect.title}</h1>
+        return <h1>{translations.joinSessionRedirect.heading}</h1>
     }
 
 }

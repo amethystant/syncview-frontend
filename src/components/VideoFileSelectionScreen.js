@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import FilePicker from './FilePicker'
 import routeNames from '../routeNames'
-import {getSessionState, setLocalStorageValue} from '../useCases'
+import {getSessionState, setDocumentTitle, setLocalStorageValue} from '../useCases'
 import constants from '../constants'
 
 class VideoFileSelectionScreen extends React.Component {
@@ -18,6 +18,8 @@ class VideoFileSelectionScreen extends React.Component {
             .then(remoteState => {
                 if (remoteState.isAwaitingAdmission) {
                     this.props.navigate(routeNames.waitingRoom)
+                } else {
+                    setDocumentTitle(remoteState.name)
                 }
             })
             .catch(error => {

@@ -12,9 +12,11 @@ import buildPutLinkToClipboard from './usecase/putLinkToClipboard'
 import buildAdmitGuest from './usecase/admitGuest'
 import buildElevateGuest from './usecase/elevateGuest'
 import buildKickGuest from './usecase/kickGuest'
+import buildSetDocumentTitle from './usecase/setDocumentTitle'
 
 const storage = localStorage
 const clipboard = navigator.clipboard
+const documentRef = document
 const webSocketStorage = {}
 
 export const getLocalStorageValue = buildGetLocalStorageValue(storage)
@@ -35,3 +37,4 @@ export const putLinkToClipboard = buildPutLinkToClipboard(clipboard, storage)
 export const admitGuest = buildAdmitGuest(makeAuthenticatedJsonRequest, storage)
 export const elevateGuest = buildElevateGuest(makeAuthenticatedJsonRequest, storage)
 export const kickGuest = buildKickGuest(makeAuthenticatedJsonRequest, storage)
+export const setDocumentTitle = buildSetDocumentTitle(documentRef)

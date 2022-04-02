@@ -8,11 +8,12 @@ import {
     getSessionStateUpdates,
     updateState,
     getSessionState,
-    getLocalStorageValue
+    getLocalStorageValue, setDocumentTitle
 } from '../useCases'
 import routeNames from '../routeNames'
 import PlaybackSessionDetails from './PlaybackSessionDetails'
 import PlaybackSessionSettings from './PlaybackSessionSettings'
+import translations from '../translations'
 
 class PlaybackScreen extends React.Component {
     constructor(props) {
@@ -53,6 +54,7 @@ class PlaybackScreen extends React.Component {
 
         if (!this.state.videoUrl) {
             this.props.navigate(routeNames.videoFileSelection)
+            return
         }
 
         this.sessionStateUpdatesJob =
@@ -78,8 +80,9 @@ class PlaybackScreen extends React.Component {
             return
         }
 
-        const thisGuest = remoteState.guests.find(guest => guest.id === remoteState.guestId, this)
+        setDocumentTitle(translations.playback.title(remoteState.name))
 
+        const thisGuest = remoteState.guests.find(guest => guest.id === remoteState.guestId, this)
         this.setState({
             guestId: remoteState.guestId,
             isHost: thisGuest.isHost,

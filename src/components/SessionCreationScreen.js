@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import FilePicker from './FilePicker'
 import translations from '../translations'
-import {createSession, setLocalStorageValue} from '../useCases'
+import {createSession, setDocumentTitle, setLocalStorageValue} from '../useCases'
 import routeNames from '../routeNames'
 import constants from '../constants'
 
@@ -22,6 +22,10 @@ class SessionCreationScreen extends React.Component {
         this.onFileChosen = this.onFileChosen.bind(this)
         this.onCreateClicked = this.onCreateClicked.bind(this)
         this.navigateToPlayback = this.navigateToPlayback.bind(this)
+    }
+
+    componentDidMount() {
+        setDocumentTitle(translations.sessionCreation.title)
     }
 
     onInputChange(event) {
