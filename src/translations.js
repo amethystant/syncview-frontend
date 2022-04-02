@@ -74,6 +74,7 @@ const languages = {
             hostLabel: 'Host',
             currentGuestLabel: 'You',
             admit: 'Admit to session',
+            reject: 'Reject',
             elevate: 'Make co-host',
             kick: 'Kick',
             errors: {

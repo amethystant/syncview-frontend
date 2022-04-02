@@ -41,12 +41,20 @@ class GuestListItem extends React.Component {
         let buttons = []
         if (this.props.isCurrentHost) {
             if (this.props.isAwaitingAdmission) {
-                const button = (
+                const admitButton = (
                     <button type="button" onClick={this.onAdmitClick}>
                         {translations.guestListItem.admit}
                     </button>
                 )
-                buttons.push(button)
+
+                const rejectButton = (
+                    <button type="button" onClick={this.onKickClick}>
+                        {translations.guestListItem.reject}
+                    </button>
+                )
+
+                buttons.push(admitButton)
+                buttons.push(rejectButton)
             } else if (!this.props.isCurrent && !this.props.guest.isHost) {
                 const elevateButton = (
                     <button type="button" onClick={this.onElevateClick}>
