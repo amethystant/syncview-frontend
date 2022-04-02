@@ -21,7 +21,10 @@ const languages = {
             hostName: 'Host nickname',
             waitingRoom: 'Waiting room',
             controlsAllowed: 'Controls allowed',
-            create: 'Create session'
+            create: 'Create session',
+            errors: {
+                invalidData: 'Error: Invalid input.'
+            }
         },
         waitingRoom: {
             title: `Waiting room - ${appName}`,
@@ -73,6 +76,7 @@ const languages = {
             controlsAllowed: 'Controls allowed',
             save: 'Save',
             errors: {
+                invalidData: 'Error: Invalid input.',
                 save: 'Error: Failed to save settings.'
             }
         },

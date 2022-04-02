@@ -10,7 +10,8 @@ class PlaybackSessionSettings extends React.Component {
             isCollapsed: true,
             sessionName: props.sessionName,
             isWaitingRoom: props.isWaitingRoom,
-            isControlsAllowed: props.isControlsAllowed
+            isControlsAllowed: props.isControlsAllowed,
+            showInvalidInputMessage: false
         }
 
         this.onOpenClick = this.onOpenClick.bind(this)
@@ -24,7 +25,8 @@ class PlaybackSessionSettings extends React.Component {
             isCollapsed: true,
             sessionName: this.props.sessionName,
             isWaitingRoom: this.props.isWaitingRoom,
-            isControlsAllowed: this.props.isControlsAllowed
+            isControlsAllowed: this.props.isControlsAllowed,
+            showInvalidInputMessage: false
         })
     }
 
@@ -40,7 +42,11 @@ class PlaybackSessionSettings extends React.Component {
     }
 
     onSaveClick() {
-        // todo validate name
+        if (!this.state.sessionName) {
+            this.setState({
+                showInvalidInputMessage: true
+            })
+        }
 
         const outboundState = {
             name: this.state.sessionName,
@@ -73,13 +79,20 @@ class PlaybackSessionSettings extends React.Component {
             )
         }
 
+        const invalidInputMessage = this.state.showInvalidInputMessage ? (
+            <p>{translations.playbackSessionSettings.errors.invalidData}<br/></p>
+        ) : ''
+
         return (
             <form>
                 <button type="button" onClick={this.onCloseClick}>{translations.playbackSessionSettings.close}</button>
                 <br/>
+                {invalidInputMessage}
                 <input
                     name="sessionName"
                     type="text"
+                    required={true}
+                    maxLength="20"
                     value={this.state.sessionName}
                     onChange={this.onInputChange}
                     placeholder={translations.playbackSessionSettings.sessionName}/>

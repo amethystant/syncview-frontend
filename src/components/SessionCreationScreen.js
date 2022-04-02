@@ -15,7 +15,8 @@ class SessionCreationScreen extends React.Component {
             hostName: '',
             isWaitingRoom: false,
             isControlsAllowed: true,
-            fileUrl: null
+            fileUrl: null,
+            showInvalidInputMessage: false
         }
 
         this.onInputChange = this.onInputChange.bind(this)
@@ -44,11 +45,13 @@ class SessionCreationScreen extends React.Component {
     onCreateClicked() {
         const {name, hostName, isWaitingRoom, isControlsAllowed, fileUrl} = this.state
         if (!name || !hostName || !fileUrl) {
-            // todo show error
+            this.setState({
+                showInvalidInputMessage: true
+            })
             return
         }
 
-        const fileDescription = 'aa' // todo make file description
+        const fileDescription = '-' // todo make file description
         createSession(name, hostName, isWaitingRoom, isControlsAllowed, fileDescription)
             .then(() => setLocalStorageValue(constants.storageKeys.FILE_URL, fileUrl))
             .then(() => this.navigateToPlayback())
@@ -62,11 +65,18 @@ class SessionCreationScreen extends React.Component {
     }
 
     render() {
+        const invalidInputMessage = this.state.showInvalidInputMessage ? (
+            <p>{translations.sessionCreation.errors.invalidData}<br/></p>
+        ) : ''
+
         return (
             <form>
+                {invalidInputMessage}
                 <input
                     name="name"
                     type="text"
+                    required={true}
+                    maxLength="20"
                     value={this.state.name}
                     onChange={this.onInputChange}
                     placeholder={translations.sessionCreation.sessionName}/>
@@ -74,6 +84,8 @@ class SessionCreationScreen extends React.Component {
                 <input
                     name="hostName"
                     type="text"
+                    required={true}
+                    maxLength="20"
                     value={this.state.hostName}
                     onChange={this.onInputChange}
                     placeholder={translations.sessionCreation.hostName}/>
