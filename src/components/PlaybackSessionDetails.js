@@ -47,7 +47,7 @@ class PlaybackSessionDetails extends React.Component {
         const admissionRequestsItems = this.props.admissionRequests.map(request => {
             return (
                 <GuestListItem
-                    key={request.guestId}
+                    key={request.id}
                     isCurrent={false}
                     guest={request}
                     isCurrentHost={this.props.isHost}
