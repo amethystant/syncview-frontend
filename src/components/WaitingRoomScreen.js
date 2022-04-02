@@ -6,6 +6,14 @@ import routeNames from '../routeNames'
 
 class WaitingRoomScreen extends React.Component {
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            errorMessage: ''
+        }
+    }
+
     componentDidMount() {
         setDocumentTitle(translations.waitingRoom.title)
         this.sessionStateUpdatesJob = getSessionStateUpdates(remoteState => {
@@ -13,7 +21,9 @@ class WaitingRoomScreen extends React.Component {
                 this.props.navigate(routeNames.videoFileSelection)
             }
         }, () => {
-            // todo put page into an error state (do not navigate away, this gets triggered when leaving the page as well)
+            this.setState({
+                errorMessage: translations.waitingRoom.errors.websocketClosed
+            })
         })
     }
 
@@ -28,6 +38,7 @@ class WaitingRoomScreen extends React.Component {
         return (
             <div>
                 <h1>{translations.waitingRoom.heading}</h1>
+                <p>{this.state.errorMessage ?? ''}</p>
             </div>
         )
     }

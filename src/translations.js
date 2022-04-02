@@ -32,7 +32,11 @@ const languages = {
         },
         waitingRoom: {
             title: `Waiting room - ${appName}`,
-            heading: 'Waiting for admission by host...'
+            heading: 'Waiting for admission by host...',
+            errors: {
+                websocketClosed: 'Error: Cannot join session. You might have been rejected or you might have lost ' +
+                    'connection.'
+            }
         },
         videoFileSelection: {
             title: sessionName => `${sessionName} - ${appName}`,
