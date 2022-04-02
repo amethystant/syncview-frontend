@@ -20,7 +20,13 @@ export default function () {
                 }
                 throw error
             }
-            return response.json()
+
+            const contentType = response.headers.get('Content-Type')
+            if (contentType && contentType.includes('application/json')) {
+                return response.json()
+            } else {
+                return null
+            }
         })
     }
 }
