@@ -15,12 +15,14 @@ import PlaybackSessionDetails from './PlaybackSessionDetails'
 import PlaybackSessionSettings from './PlaybackSessionSettings'
 import translations from '../translations'
 
+const ERROR_MESSAGE_DURATION = 2000
+
 class PlaybackScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             videoUrl: getLocalStorageValue(constants.storageKeys.FILE_URL),
-            sessionCode: getLocalStorageValue(constants.storageKeys.SESSION_CODE),
+            sessionCode: getLocalStorageValue(constants.storageKeys.SESSION_CODE) ?? '',
             guestId: null,
             isHost: false,
             sessionName: '',
@@ -38,8 +40,11 @@ class PlaybackScreen extends React.Component {
             isControlsAllowed: false,
             isWaitingRoom: true,
             isInitialStateLoaded: false,
-            isForcePaused: false
+            isForcePaused: false,
+            error: null
         }
+
+        this.timeoutIds = []
 
         this.onPlayOrPause = this.onPlayOrPause.bind(this)
         this.onUserSeek = this.onUserSeek.bind(this)
@@ -60,19 +65,11 @@ class PlaybackScreen extends React.Component {
 
         this.sessionStateUpdatesJob =
             getSessionStateUpdates(remoteState => this.onRemoteStateChange(remoteState), () => {
-                // todo put page into an error state (do not navigate away, this gets triggered when leaving the page as well)
+                this.showErrorMessage(translations.playback.errors.stateFetchFailed, true, true)
+                this.fetchSingleStateUpdate()
             })
 
-        getSessionState()
-            .then(remoteState => this.onRemoteStateChange(remoteState))
-            .catch(error => {
-                if (error.isAuthorization) {
-                    this.props.navigate(routeNames.noAccess)
-                    return
-                }
-
-                // todo on other errors
-            })
+        this.fetchSingleStateUpdate()
     }
 
     onRemoteStateChange(remoteState) {
@@ -109,7 +106,7 @@ class PlaybackScreen extends React.Component {
         }
 
         if (!this.state.isControlsGranted) {
-            // todo show message
+            this.showErrorMessage(translations.playback.errors.playOrPauseNotAllowed)
             this.setState({
                 isForcePaused: isPlaying !== this.state.isPlaying ? !isPlaying : false
             })
@@ -125,7 +122,7 @@ class PlaybackScreen extends React.Component {
         }
         updateState(outboundState)
             .catch(error => {
-                // todo handle error
+                this.showErrorMessage(translations.playback.errors.stateUpdateFailed)
             })
     }
 
@@ -135,7 +132,7 @@ class PlaybackScreen extends React.Component {
         }
 
         if (!this.state.isControlsGranted) {
-            // todo show message
+            this.showErrorMessage(translations.playback.errors.controlsNotGranted)
             return
         }
 
@@ -151,7 +148,7 @@ class PlaybackScreen extends React.Component {
 
         updateState(outboundState)
             .catch(error => {
-                // todo handle error
+                this.showErrorMessage(translations.playback.errors.stateUpdateFailed)
             })
     }
 
@@ -159,11 +156,59 @@ class PlaybackScreen extends React.Component {
         this.props.navigate(routeNames.videoFileSelection)
     }
 
+    fetchSingleStateUpdate() {
+        getSessionState()
+            .then(remoteState => this.onRemoteStateChange(remoteState))
+            .catch(error => {
+                if (error.isAuthorization) {
+                    this.props.navigate(routeNames.noAccess)
+                    return
+                }
+
+                this.showErrorMessage(translations.playback.errors.stateFetchFailed)
+            })
+    }
+
+    showErrorMessage(message, indefinite, showReloadButton) {
+        indefinite = indefinite === true
+        if (!indefinite && this.state.error && this.state.error.indefinite) {
+            return
+        }
+
+        const dateNow = Date.now()
+        this.setState({
+            error: {
+                time: dateNow,
+                message: message,
+                indefinite: indefinite,
+                showReloadButton: showReloadButton === true
+            }
+        })
+
+        if (indefinite) {
+            return
+        }
+
+        const timeoutId = setTimeout(() => {
+            if (this.state.error.time === dateNow) {
+                this.setState({
+                    error: null
+                })
+            }
+        }, ERROR_MESSAGE_DURATION)
+
+        this.timeoutIds.push(timeoutId)
+    }
+
     componentWillUnmount() {
         if (this.sessionStateUpdatesJob) {
             this.sessionStateUpdatesJob.cancel()
             delete this.sessionStateUpdatesJob
         }
+
+        this.timeoutIds.forEach(timeoutId => {
+            clearTimeout(timeoutId)
+        })
     }
 
     render() {
@@ -172,6 +217,16 @@ class PlaybackScreen extends React.Component {
                 sessionName={this.state.sessionName}
                 isWaitingRoom={this.state.isWaitingRoom}
                 isControlsAllowed={this.state.isControlsAllowed}/>
+        ) : ''
+
+        const reloadButton = this.state.error && this.state.error.showReloadButton ? (
+            <button type="button" onClick={() => window.location.reload()}>{translations.playback.reload}</button>
+        ) : ''
+        const error = this.state.error ? (
+            <div>
+                <p>{this.state.error.message}</p>
+                {reloadButton}
+            </div>
         ) : ''
         return (
             <div className="playback-screen-root">
@@ -194,6 +249,9 @@ class PlaybackScreen extends React.Component {
                         guests={this.state.guests}
                         admissionRequests={this.state.admissionRequests}/>
                     {settings}
+                </div>
+                <div className="playback-screen-error-overlay-div">
+                    {error}
                 </div>
             </div>
         )

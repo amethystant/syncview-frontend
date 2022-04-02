@@ -14,3 +14,10 @@
     position: absolute;
     z-index: 2;
 }
+
+.playback-screen-error-overlay-div {
+    background: white;
+    position: absolute;
+    z-index: 3;
+    bottom: 5em;
+}
