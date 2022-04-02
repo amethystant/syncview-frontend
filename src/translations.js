@@ -36,7 +36,11 @@ const languages = {
         },
         videoFileSelection: {
             title: sessionName => `${sessionName} - ${appName}`,
-            heading: sessionName => `Welcome to ${sessionName}!`
+            heading: sessionName => `Welcome to ${sessionName}!`,
+            proceed: 'Proceed',
+            errors: {
+                missingFile: 'Error: Missing file.'
+            }
         },
         playback: {
             title: sessionName => `${sessionName} - ${appName}`,

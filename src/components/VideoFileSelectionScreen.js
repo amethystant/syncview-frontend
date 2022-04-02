@@ -10,8 +10,13 @@ class VideoFileSelectionScreen extends React.Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            formError: '',
+            fileUrl: ''
+        }
 
         this.onFileChosen = this.onFileChosen.bind(this)
+        this.onProceedClick = this.onProceedClick.bind(this)
     }
 
     componentDidMount() {
@@ -26,25 +31,42 @@ class VideoFileSelectionScreen extends React.Component {
             .catch(error => {
                 if (error.isAuthorization) {
                     this.props.navigate(routeNames.noAccess)
-                    return
                 }
-
-                // todo handle other error
             })
     }
 
     onFileChosen(url) {
+        this.setState({
+            fileUrl: url
+        })
+    }
+
+    onProceedClick() {
+        if (!this.state.fileUrl) {
+            this.setState({
+                formError: translations.videoFileSelection.errors.missingFile
+            })
+            return
+        }
+
         // todo verify files first
-        setLocalStorageValue(constants.storageKeys.FILE_URL, url)
+        setLocalStorageValue(constants.storageKeys.FILE_URL, this.state.fileUrl)
         this.props.navigate(routeNames.playback)
     }
 
     render() {
+        const formError = this.state.formError ? (
+            <p>{this.state.formError}<br/></p>
+        ) : ''
+
         return (
             <div>
+                {formError}
                 <FilePicker
                     accept=".mp4"
                     onFileChosen={this.onFileChosen}/>
+                <br/>
+                <button type="button" onClick={this.onProceedClick}>{translations.videoFileSelection.proceed}</button>
             </div>
         )
     }
