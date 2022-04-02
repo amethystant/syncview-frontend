@@ -13,6 +13,7 @@ class VideoJs extends React.Component {
         this.state = {
             videoKey: 0
         }
+        this.isInitialStateLoaded = false
     }
 
     componentDidMount() {
@@ -88,13 +89,15 @@ class VideoJs extends React.Component {
             this.isAdjusting = true
             this.player.currentTime(this.getDesirablePositionMs() / 1000)
         }
+
+        this.isInitialStateLoaded = true
     }
 
     setUpPlayerListeners() {
         const player = this.player
 
         player.on('pause', () => {
-            if (!player.seeking()) {
+            if (!player.seeking() && this.isInitialStateLoaded) {
                 this.props.onPause(player.currentTime() * 1000)
             }
         })
@@ -104,7 +107,7 @@ class VideoJs extends React.Component {
                 if (this.isOutOfSync() && this.props.isPlaying) {
                     this.isAdjusting = true
                     player.currentTime(this.getDesirablePositionMs() / 1000)
-                } else {
+                } else if (this.isInitialStateLoaded) {
                     this.props.onPlay(player.currentTime() * 1000)
                 }
             }
@@ -112,7 +115,9 @@ class VideoJs extends React.Component {
 
         player.on('seeked', () => {
             if (!this.isAdjusting) {
-                this.props.onUserSeek(player.currentTime() * 1000)
+                if (this.isInitialStateLoaded) {
+                    this.props.onUserSeek(player.currentTime() * 1000)
+                }
             } else {
                 if (this.isOutOfSync()) {
                     this.player.currentTime(this.getDesirablePositionMs() / 1000)

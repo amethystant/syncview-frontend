@@ -41,7 +41,8 @@ class PlaybackScreen extends React.Component {
             isForcePaused: false
         }
 
-        this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
+        this.onPlayOrPause = this.onPlayOrPause.bind(this)
+        this.onUserSeek = this.onUserSeek.bind(this)
         this.onPlayerError = this.onPlayerError.bind(this)
     }
 
@@ -102,34 +103,50 @@ class PlaybackScreen extends React.Component {
         })
     }
 
-    onPlayerStateChange(position, isPlaying) {
+    onPlayOrPause(isPlaying) {
         if (!this.state.isInitialStateLoaded) {
             return
         }
 
         if (!this.state.isControlsGranted) {
             // todo show message
-            if (typeof isPlaying === 'boolean') {
-                this.setState({
-                    isForcePaused: isPlaying !== this.state.isPlaying ? !isPlaying : false
-                })
-            }
+            this.setState({
+                isForcePaused: isPlaying !== this.state.isPlaying ? !isPlaying : false
+            })
             return
         }
 
-        if (typeof isPlaying !== 'boolean') {
-            isPlaying = this.state.isPlaying
+        if (isPlaying === this.state.isPlaying) {
+            return
         }
 
-        if (this.state.position.position === position && this.state.isPlaying === isPlaying) {
+        const outboundState = {
+            isPlaying: isPlaying
+        }
+        updateState(outboundState)
+            .catch(error => {
+                // todo handle error
+            })
+    }
+
+    onUserSeek(position) {
+        if (!this.state.isInitialStateLoaded) {
+            return
+        }
+
+        if (!this.state.isControlsGranted) {
+            // todo show message
+            return
+        }
+
+        if (this.state.position.position === position) {
             return
         }
 
         const outboundState = {
             position: {
                 position: position
-            },
-            isPlaying: isPlaying
+            }
         }
 
         updateState(outboundState)
@@ -150,7 +167,7 @@ class PlaybackScreen extends React.Component {
     }
 
     render() {
-        const settingsItem = this.state.isHost ? (
+        const settings = this.state.isHost ? (
             <PlaybackSessionSettings
                 sessionName={this.state.sessionName}
                 isWaitingRoom={this.state.isWaitingRoom}
@@ -164,9 +181,9 @@ class PlaybackScreen extends React.Component {
                         isSeekingAllowed={this.state.isControlsGranted}
                         isPlaying={this.state.isPlaying && !this.state.isForcePaused}
                         position={this.state.position}
-                        onPause={position => this.onPlayerStateChange(position, false)}
-                        onPlay={position => this.onPlayerStateChange(position, true)}
-                        onUserSeek={position => this.onPlayerStateChange(position)}
+                        onPause={position => this.onPlayOrPause(false)}
+                        onPlay={position => this.onPlayOrPause(true)}
+                        onUserSeek={position => this.onUserSeek(position)}
                         onPlayerError={this.onPlayerError}/>
                 </div>
                 <div className="playback-screen-overlay-div">
@@ -176,7 +193,7 @@ class PlaybackScreen extends React.Component {
                         guestId={this.state.guestId}
                         guests={this.state.guests}
                         admissionRequests={this.state.admissionRequests}/>
-                    {settingsItem}
+                    {settings}
                 </div>
             </div>
         )
