@@ -13,7 +13,11 @@ const languages = {
             create: 'Create session',
             sessionCode: 'Session code',
             guestName: 'Nickname',
-            join: 'Join'
+            join: 'Join',
+            errors: {
+                invalidData: 'Error: Invalid input.',
+                accessFailed: 'Error: Could not join session. It might be expired.'
+            }
         },
         sessionCreation: {
             title: `Create Session - ${appName}`,

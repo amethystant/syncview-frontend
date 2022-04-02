@@ -11,8 +11,11 @@ class WelcomeScreen extends React.Component {
         super(props)
         this.state = {
             sessionCode: '',
-            guestName: ''
+            guestName: '',
+            formError: ''
         }
+
+        this.accessPromise = null
 
         this.onInputChange = this.onInputChange.bind(this)
         this.onJoinClicked = this.onJoinClicked.bind(this)
@@ -36,14 +39,22 @@ class WelcomeScreen extends React.Component {
     }
 
     onJoinClicked() {
-        if (!this.state.sessionCode || !this.state.guestName) {
-            // todo user input error
+        if (this.accessPromise) {
             return
         }
 
-        // todo make sure user can't click again
+        if (!this.state.sessionCode || !this.state.guestName) {
+            this.setState({
+                formError: translations.welcome.errors.invalidData
+            })
+            return
+        }
 
-        accessSession(this.state.sessionCode, this.state.guestName)
+        this.setState({
+            formError: ''
+        })
+
+        this.accessPromise = accessSession(this.state.sessionCode, this.state.guestName)
             .then(response => {
                 if (response.isAwaitingAdmission) {
                     this.props.navigate(routeNames.waitingRoom)
@@ -52,20 +63,32 @@ class WelcomeScreen extends React.Component {
                 }
             })
             .catch(error => {
-                // todo error
+                if (this.accessPromise) {
+                    this.accessPromise = null
+                }
+
+                this.setState({
+                    formError: translations.welcome.errors.accessFailed
+                })
             })
     }
 
     render() {
+        const formError = this.state.formError ? (
+            <p>{this.state.formError}<br/></p>
+        ) : ''
+
         return (
             <div>
                 <Link to={routeNames.sessionCreation}>
                     {translations.welcome.create}
                 </Link>
                 <form>
+                    {formError}
                     <input
                         name="sessionCode"
                         type="text"
+                        required={true}
                         value={this.state.sessionCode}
                         onChange={this.onInputChange}
                         style={{textTransform: 'uppercase'}}
@@ -74,6 +97,7 @@ class WelcomeScreen extends React.Component {
                     <input
                         name="guestName"
                         type="text"
+                        required={true}
                         value={this.state.guestName}
                         onChange={this.onInputChange}
                         placeholder={translations.welcome.guestName}/>
