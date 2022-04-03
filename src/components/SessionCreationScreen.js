@@ -1,10 +1,12 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
+import {Box, Button, CircularProgress, FormControlLabel, Stack, Switch, TextField, Typography} from '@mui/material'
 import FilePicker from './FilePicker'
 import translations from '../translations'
 import {createSession, setDocumentTitle, setLocalStorageValue} from '../useCases'
 import routeNames from '../routeNames'
 import constants from '../constants'
+import FullpageForm from './FullpageForm'
 
 class SessionCreationScreen extends React.Component {
 
@@ -16,8 +18,11 @@ class SessionCreationScreen extends React.Component {
             isWaitingRoom: false,
             isControlsAllowed: true,
             fileUrl: null,
-            showInvalidInputMessage: false
+            formError: '',
+            createLoading: false
         }
+
+        this.createPromise = null
 
         this.onInputChange = this.onInputChange.bind(this)
         this.onFileChosen = this.onFileChosen.bind(this)
@@ -44,19 +49,25 @@ class SessionCreationScreen extends React.Component {
 
     onCreateClicked() {
         const {name, hostName, isWaitingRoom, isControlsAllowed, fileUrl} = this.state
-        if (!name || !hostName || !fileUrl) {
-            this.setState({
-                showInvalidInputMessage: true
-            })
+
+        if (this.createPromise) {
             return
         }
 
+        this.setState({
+            createLoading: true
+        })
+
         const fileDescription = '-' // todo make file description
-        createSession(name, hostName, isWaitingRoom, isControlsAllowed, fileDescription)
+        this.createPromise = createSession(name, hostName, isWaitingRoom, isControlsAllowed, fileDescription)
             .then(() => setLocalStorageValue(constants.storageKeys.FILE_URL, fileUrl))
             .then(() => this.navigateToPlayback())
             .catch(error => {
-                console.log(error.toString())
+                this.createPromise = null
+                this.setState({
+                    formError: translations.sessionCreation.errors.createFailed,
+                    createLoading: false
+                })
             })
     }
 
@@ -65,61 +76,72 @@ class SessionCreationScreen extends React.Component {
     }
 
     render() {
-        const invalidInputMessage = this.state.showInvalidInputMessage ? (
-            <p>{translations.sessionCreation.errors.invalidData}<br/></p>
-        ) : ''
-
         return (
-            <form>
-                {invalidInputMessage}
-                <input
-                    name="name"
-                    type="text"
-                    required={true}
-                    maxLength="20"
-                    value={this.state.name}
-                    onChange={this.onInputChange}
-                    placeholder={translations.sessionCreation.sessionName}/>
-                <br/>
-                <input
-                    name="hostName"
-                    type="text"
-                    required={true}
-                    maxLength="20"
-                    value={this.state.hostName}
-                    onChange={this.onInputChange}
-                    placeholder={translations.sessionCreation.hostName}/>
-                <br/>
-                <label>
-                    <input
-                        name="isWaitingRoom"
-                        type="checkbox"
-                        checked={this.state.isWaitingRoom}
-                        onChange={this.onInputChange}/>
-                    {translations.sessionCreation.waitingRoom}
-                </label>
-                <br/>
-                <label>
-                    <input
-                        name="isControlsAllowed"
-                        type="checkbox"
-                        checked={this.state.isControlsAllowed}
-                        onChange={this.onInputChange}/>
-                    {translations.sessionCreation.controlsAllowed}
-                </label>
-                <br/>
-                <FilePicker
-                    accept=".mp4"
-                    onFileChosen={this.onFileChosen}
-                    inputId="session-video-file"/>
-                <br/>
-                <button
-                    type="button"
-                    onClick={this.onCreateClicked}>
-                    {translations.sessionCreation.create}
-                </button>
-                <br/>
-            </form>
+            <FullpageForm
+                heading={translations.sessionCreation.heading}>
+                <Stack spacing={1}>
+                    <TextField
+                        name="name"
+                        type="text"
+                        variant="outlined"
+                        inputProps={{maxLength: 20}}
+                        value={this.state.name}
+                        onChange={this.onInputChange}
+                        label={translations.sessionCreation.sessionName}/>
+                    <TextField
+                        name="hostName"
+                        type="text"
+                        variant="outlined"
+                        inputProps={{maxLength: 20}}
+                        value={this.state.hostName}
+                        onChange={this.onInputChange}
+                        label={translations.sessionCreation.hostName}/>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                name="isWaitingRoom"
+                                checked={this.state.isWaitingRoom}
+                                onChange={this.onInputChange}/>
+                        }
+                        label={translations.sessionCreation.waitingRoom}/>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                name="isControlsAllowed"
+                                checked={this.state.isControlsAllowed}
+                                onChange={this.onInputChange}/>
+                        }
+                        label={translations.sessionCreation.controlsAllowed}/>
+                    <FilePicker
+                        accept=".mp4"
+                        onFileChosen={this.onFileChosen}
+                        inputId="session-video-file"/>
+                    <Typography
+                        variant="caption"
+                        color="error"
+                        sx={{display: this.state.formError ? 'block' : 'none'}}>
+                        {this.state.formError}
+                    </Typography>
+                    <Box
+                        height="3em"
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={{display: this.state.createLoading ? 'flex' : 'none'}}>
+                        <CircularProgress sx={{width: '100%'}}/>
+                    </Box>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            height: '3em',
+                            display: this.state.createLoading ? 'none' : 'block'
+                        }}
+                        disabled={!this.state.name || !this.state.hostName || !this.state.fileUrl}
+                        onClick={this.onCreateClicked}>
+                        {translations.sessionCreation.create}
+                    </Button>
+                </Stack>
+            </FullpageForm>
         )
     }
 }

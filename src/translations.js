@@ -21,13 +21,14 @@ const languages = {
         },
         sessionCreation: {
             title: `Create Session - ${appName}`,
+            heading: 'Create session',
             sessionName: 'Session name',
             hostName: 'Host nickname',
-            waitingRoom: 'Waiting room',
-            controlsAllowed: 'Controls allowed',
+            waitingRoom: 'Add waiting room',
+            controlsAllowed: 'Everyone can control playback',
             create: 'Create session',
             errors: {
-                invalidData: 'Error: Invalid input.'
+                createFailed: 'Error: Could not create session. Check your internet connection.'
             }
         },
         fileChooser: {
