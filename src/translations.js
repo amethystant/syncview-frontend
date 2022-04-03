@@ -104,7 +104,8 @@ const languages = {
         },
         noAccess: {
             title: appName,
-            heading: 'The session has either expired or you don\'t have access to it.',
+            heading: appName,
+            subheading: 'The session has either expired or you don\'t have access to it.',
             backHome: 'Back to homepage'
         }
     }
