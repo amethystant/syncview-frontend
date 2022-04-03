@@ -1,10 +1,12 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
+import {Button, Stack, Typography} from '@mui/material'
 import FilePicker from './FilePicker'
 import routeNames from '../routeNames'
 import {getSessionState, setDocumentTitle, setLocalStorageValue} from '../useCases'
 import constants from '../constants'
 import translations from '../translations'
+import FullpageForm from './FullpageForm'
 
 class VideoFileSelectionScreen extends React.Component {
 
@@ -12,7 +14,8 @@ class VideoFileSelectionScreen extends React.Component {
         super(props)
         this.state = {
             formError: '',
-            fileUrl: ''
+            fileUrl: '',
+            sessionName: translations.videoFileSelection.sessionNamePlaceholder
         }
 
         this.onFileChosen = this.onFileChosen.bind(this)
@@ -26,6 +29,9 @@ class VideoFileSelectionScreen extends React.Component {
                     this.props.navigate(routeNames.waitingRoom)
                 } else {
                     setDocumentTitle(translations.videoFileSelection.title(remoteState.name))
+                    this.setState({
+                        sessionName: remoteState.name
+                    })
                 }
             })
             .catch(error => {
@@ -55,19 +61,29 @@ class VideoFileSelectionScreen extends React.Component {
     }
 
     render() {
-        const formError = this.state.formError ? (
-            <p>{this.state.formError}<br/></p>
-        ) : ''
-
         return (
-            <div>
-                {formError}
-                <FilePicker
-                    accept=".mp4"
-                    onFileChosen={this.onFileChosen}/>
-                <br/>
-                <button type="button" onClick={this.onProceedClick}>{translations.videoFileSelection.proceed}</button>
-            </div>
+            <FullpageForm
+                heading={translations.videoFileSelection.heading(this.state.sessionName)}>
+                <Stack spacing={1}>
+                    <FilePicker
+                        accept=".mp4"
+                        onFileChosen={this.onFileChosen}
+                        inputId="session-video-file"/>
+                    <Typography
+                        variant="caption"
+                        color="error"
+                        sx={{display: this.state.formError ? 'block' : 'none'}}>
+                        {this.state.formError}
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        sx={{height: '3em'}}
+                        disabled={!this.state.fileUrl}
+                        onClick={this.onProceedClick}>
+                        {translations.videoFileSelection.proceed}
+                    </Button>
+                </Stack>
+            </FullpageForm>
         )
     }
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
+import {Box, Link, Typography} from '@mui/material'
 import translations from '../translations'
 import {getSessionStateUpdates, setDocumentTitle} from '../useCases'
 import routeNames from '../routeNames'
-import {Box, Link, Typography} from '@mui/material'
 
 class WaitingRoomScreen extends React.Component {
 
