@@ -1,5 +1,6 @@
 import React from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
+import {Box, Typography} from '@mui/material'
 import translations from '../translations'
 import {setDocumentTitle, setLocalStorageValue} from '../useCases'
 import constants from '../constants'
@@ -16,9 +17,28 @@ class JoinSessionRedirectScreen extends React.Component {
     }
 
     render() {
-        return <h1>{translations.joinSessionRedirect.heading}</h1>
+        return (
+            <Box
+                backgroundColor="primary.dark"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexDirection="column"
+                minHeight="100vh">
+                <Typography
+                    variant="h3"
+                    align="center"
+                    sx={{mb: 2}}>
+                    {translations.joinSessionRedirect.heading}
+                </Typography>
+                <Typography
+                    variant="h4"
+                    align="center">
+                    {translations.joinSessionRedirect.subheading}
+                </Typography>
+            </Box>
+        )
     }
-
 }
 
 export default props => {
