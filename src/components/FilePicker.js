@@ -37,7 +37,7 @@ class FilePicker extends React.Component {
                         sx={{display: 'none'}}
                         id={this.props.inputId}
                         type="file"
-                        accept={this.props.accept}
+                        inputProps={{accept: this.props.accept}}
                         onChange={this.handleFileChosen}/>
                     <Typography
                         variant="overline">
