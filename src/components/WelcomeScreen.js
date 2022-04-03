@@ -91,6 +91,7 @@ class WelcomeScreen extends React.Component {
                         name="guestName"
                         type="text"
                         variant="outlined"
+                        inputProps={{maxLength: 20}}
                         value={this.state.guestName}
                         onChange={this.onInputChange}
                         label={translations.welcome.guestName}/>
