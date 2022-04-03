@@ -71,8 +71,8 @@ const languages = {
         playbackSessionDetails: {
             sessionCode: sessionCode => `This is your session code: ${sessionCode.toUpperCase()}`,
             copyLink: 'Copy link to share',
-            guestListTitle: 'Guests:',
-            admissionRequestsTitle: 'Admission requests:',
+            guestListTitle: 'Guests',
+            admissionRequestsTitle: 'Admission requests',
             errors: {
                 clipboard: 'Error: Could not put link into your clipboard.'
             }

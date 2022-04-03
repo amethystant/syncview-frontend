@@ -1,4 +1,6 @@
 import React from 'react'
+import {Chip, IconButton, ListItem, ListItemText, Menu, MenuItem} from '@mui/material'
+import MoreVertSharpIcon from '@mui/icons-material/MoreVertSharp'
 import translations from '../translations'
 import {admitGuest, elevateGuest, kickGuest} from '../useCases'
 
@@ -6,10 +8,27 @@ class GuestListItem extends React.Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            menuAnchor: null
+        }
 
+        this.onMenuIconClick = this.onMenuIconClick.bind(this)
+        this.onMenuClosed = this.onMenuClosed.bind(this)
         this.onAdmitClick = this.onAdmitClick.bind(this)
         this.onElevateClick = this.onElevateClick.bind(this)
         this.onKickClick = this.onKickClick.bind(this)
+    }
+
+    onMenuIconClick(event) {
+        this.setState({
+            menuAnchor: event.target
+        })
+    }
+
+    onMenuClosed() {
+        this.setState({
+            menuAnchor: null
+        })
     }
 
     onAdmitClick() {
@@ -34,50 +53,79 @@ class GuestListItem extends React.Component {
     }
 
     render() {
-        let labelsText = this.props.guest.isOnline ? translations.guestListItem.onlineLabel + ', ' : ''
-        labelsText += this.props.isCurrent ? translations.guestListItem.currentGuestLabel + ', ' : ''
-        labelsText += this.props.guest.isHost ? translations.guestListItem.hostLabel : ''
-
-        let buttons = []
+        let menuItems = []
         if (this.props.isCurrentHost) {
             if (this.props.isAwaitingAdmission) {
-                const admitButton = (
-                    <button type="button" onClick={this.onAdmitClick}>
+                const admitItem = (
+                    <MenuItem onClick={this.onAdmitClick}>
                         {translations.guestListItem.admit}
-                    </button>
+                    </MenuItem>
                 )
-
-                const rejectButton = (
-                    <button type="button" onClick={this.onKickClick}>
+                const rejectItem = (
+                    <MenuItem onClick={this.onKickClick}>
                         {translations.guestListItem.reject}
-                    </button>
+                    </MenuItem>
                 )
 
-                buttons.push(admitButton)
-                buttons.push(rejectButton)
+                menuItems.push(admitItem)
+                menuItems.push(rejectItem)
             } else if (!this.props.isCurrent && !this.props.guest.isHost) {
-                const elevateButton = (
-                    <button type="button" onClick={this.onElevateClick}>
+                const elevateItem = (
+                    <MenuItem onClick={this.onElevateClick}>
                         {translations.guestListItem.elevate}
-                    </button>
+                    </MenuItem>
                 )
 
-                const kickButton = (
-                    <button type="button" onClick={this.onKickClick}>
+                const kickItem = (
+                    <MenuItem onClick={this.onKickClick}>
                         {translations.guestListItem.kick}
-                    </button>
+                    </MenuItem>
                 )
 
-                buttons.push(elevateButton)
-                buttons.push(kickButton)
+                menuItems.push(elevateItem)
+                menuItems.push(kickItem)
             }
         }
 
         return (
-            <li>
-                {this.props.guest.name} {labelsText}
-                {buttons}
-            </li>
+            <ListItem>
+                <ListItemText primary={this.props.guest.name}/>
+                <Chip
+                    variant="filled"
+                    size="small"
+                    label={translations.guestListItem.currentGuestLabel}
+                    sx={{
+                        ml: 1,
+                        display: this.props.isCurrent ? 'flex' : 'none'
+                    }}/>
+                <Chip
+                    variant="outlined"
+                    size="small"
+                    label={translations.guestListItem.onlineLabel}
+                    sx={{
+                        ml: 1,
+                        display: this.props.guest.isOnline && !this.props.isCurrent ? 'flex' : 'none'
+                    }}/>
+                <Chip
+                    variant="outlined"
+                    size="small"
+                    label={translations.guestListItem.hostLabel}
+                    sx={{
+                        ml: 1,
+                        display: this.props.guest.isHost ? 'flex' : 'none'
+                    }}/>
+                <IconButton
+                    sx={{display: menuItems.length ? 'block' : 'none'}}
+                    onClick={event => this.onMenuIconClick(event)}>
+                    <MoreVertSharpIcon/>
+                </IconButton>
+                <Menu
+                    anchorEl={this.state.menuAnchor}
+                    open={!!this.state.menuAnchor}
+                    onClose={this.onMenuClosed}>
+                    {menuItems}
+                </Menu>
+            </ListItem>
         )
     }
 }

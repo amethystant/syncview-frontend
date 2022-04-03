@@ -1,4 +1,5 @@
 import React from 'react'
+import {Button, Card, List, Stack, Typography} from '@mui/material'
 import translations from '../translations'
 import {putLinkToClipboard} from '../useCases'
 import GuestListItem from './GuestListItem'
@@ -57,22 +58,36 @@ class PlaybackSessionDetails extends React.Component {
         })
 
         return (
-            <div>
-                <p>{translations.playbackSessionDetails.sessionCode(this.props.sessionCode)}</p>
-                <button type="button" onClick={this.onCopyLinkClick}>
-                    {translations.playbackSessionDetails.copyLink}
-                </button>
-                <h6>{translations.playbackSessionDetails.guestListTitle}</h6>
-                <ul>
-                    {guestListItems}
-                </ul>
-                <h6>
-                    {admissionRequestsItems.length ? translations.playbackSessionDetails.admissionRequestsTitle : ''}
-                </h6>
-                <ul>
-                    {admissionRequestsItems}
-                </ul>
-            </div>
+            <Card sx={{p: 3}}>
+                <Stack spacing={1}>
+                    <Typography
+                        variant="h6"
+                        textAlign="center">
+                        {this.props.sessionName}
+                    </Typography>
+                    <Typography
+                        variant="body2"
+                        textAlign="center">
+                        {translations.playbackSessionDetails.sessionCode(this.props.sessionCode)}
+                    </Typography>
+                    <Button variant="text" onClick={this.onCopyLinkClick}>
+                        {translations.playbackSessionDetails.copyLink}
+                    </Button>
+                    <Typography variant="h6">{translations.playbackSessionDetails.guestListTitle}</Typography>
+                    <List
+                        sx={{p: 0}}>
+                        {guestListItems}
+                    </List>
+                    <Typography
+                        variant="h6"
+                        sx={{display: admissionRequestsItems.length ? 'block' : 'none'}}>
+                        {admissionRequestsItems.length ? translations.playbackSessionDetails.admissionRequestsTitle : ''}
+                    </Typography>
+                    <List>
+                        {admissionRequestsItems}
+                    </List>
+                </Stack>
+            </Card>
         )
     }
 }
