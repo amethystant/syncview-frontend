@@ -30,6 +30,9 @@ const languages = {
                 invalidData: 'Error: Invalid input.'
             }
         },
+        fileChooser: {
+            text: 'Choose file'
+        },
         waitingRoom: {
             title: `Waiting room - ${appName}`,
             heading: 'Waiting for admission by host...',

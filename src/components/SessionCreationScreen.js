@@ -110,7 +110,8 @@ class SessionCreationScreen extends React.Component {
                 <br/>
                 <FilePicker
                     accept=".mp4"
-                    onFileChosen={this.onFileChosen}/>
+                    onFileChosen={this.onFileChosen}
+                    inputId="session-video-file"/>
                 <br/>
                 <button
                     type="button"
