@@ -10,12 +10,12 @@ const languages = {
         },
         welcome: {
             title: appName,
+            heading: `Welcome to ${appName}!`,
             create: 'Create session',
             sessionCode: 'Session code',
             guestName: 'Nickname',
             join: 'Join',
             errors: {
-                invalidData: 'Error: Invalid input.',
                 accessFailed: 'Error: Could not join session. It might be expired.'
             }
         },
