@@ -5,7 +5,8 @@ const languages = {
         appName: appName,
         notFound: {
             title: `Not Found - ${appName}`,
-            notFound: 'Page not found',
+            heading: appName,
+            subheading: 'Page not found',
             backHome: 'Back to homepage'
         },
         welcome: {
