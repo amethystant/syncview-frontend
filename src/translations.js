@@ -37,7 +37,9 @@ const languages = {
         },
         waitingRoom: {
             title: `Waiting room - ${appName}`,
-            heading: 'Waiting for admission by host...',
+            heading: appName,
+            subheading: 'Waiting for admission by host...',
+            backHome: 'Back to homepage',
             errors: {
                 websocketClosed: 'Error: Cannot join session. You might have been rejected or you might have lost ' +
                     'connection.'

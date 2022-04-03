@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import translations from '../translations'
 import {getSessionStateUpdates, setDocumentTitle} from '../useCases'
 import routeNames from '../routeNames'
+import {Box, Link, Typography} from '@mui/material'
 
 class WaitingRoomScreen extends React.Component {
 
@@ -36,10 +37,39 @@ class WaitingRoomScreen extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>{translations.waitingRoom.heading}</h1>
-                <p>{this.state.errorMessage ?? ''}</p>
-            </div>
+            <Box
+                backgroundColor="primary.dark"
+                minHeight="100vh"
+                display="flex"
+                flexDirection="column">
+                <Link href={routeNames.welcome} sx={{m: 1}}>{translations.waitingRoom.backHome}</Link>
+                <Box
+                    flexGrow={1}
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center">
+                    <Typography
+                        variant="h3"
+                        align="center"
+                        sx={{mb: 2}}>
+                        {translations.waitingRoom.heading}
+                    </Typography>
+                    <Typography
+                        variant="h4"
+                        align="center"
+                        sx={{mb: 2}}>
+                        {translations.waitingRoom.subheading}
+                    </Typography>
+                    <Typography
+                        variant="body2"
+                        align="center"
+                        color="error"
+                        sx={{display: this.state.errorMessage ? 'block' : 'none'}}>
+                        {this.state.errorMessage ?? ''}
+                    </Typography>
+                </Box>
+            </Box>
         )
     }
 }
