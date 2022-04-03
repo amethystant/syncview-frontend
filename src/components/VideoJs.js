@@ -130,6 +130,14 @@ class VideoJs extends React.Component {
         player.on('error', () => {
             this.props.onPlayerError()
         })
+
+        player.on('useractive', () => {
+            this.props.onUserActiveChange(true)
+        })
+
+        player.on('userinactive', () => {
+            this.props.onUserActiveChange(false)
+        })
     }
 
     resetPlayer() {

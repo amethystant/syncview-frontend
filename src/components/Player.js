@@ -34,7 +34,8 @@ class Player extends React.Component {
                     onPause={this.props.onPause}
                     onPlay={this.props.onPlay}
                     onUserSeek={this.props.onUserSeek}
-                    onPlayerError={this.props.onPlayerError}/>
+                    onPlayerError={this.props.onPlayerError}
+                    onUserActiveChange={this.props.onUserActiveChange}/>
             </div>
         )
     }

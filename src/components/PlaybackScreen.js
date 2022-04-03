@@ -1,7 +1,6 @@
-import '../styles/component/PlaybackScreen.css'
-
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
+import {Box, Button, Fade, Snackbar} from '@mui/material'
 import Player from './Player'
 import constants from '../constants'
 import {
@@ -41,7 +40,9 @@ class PlaybackScreen extends React.Component {
             isWaitingRoom: true,
             isInitialStateLoaded: false,
             isForcePaused: false,
-            error: null
+            error: null,
+            isUserActive: false,
+            isMouseWithinDisappearingChild: {}
         }
 
         this.timeoutIds = []
@@ -49,7 +50,9 @@ class PlaybackScreen extends React.Component {
         this.onPlayOrPause = this.onPlayOrPause.bind(this)
         this.onUserSeek = this.onUserSeek.bind(this)
         this.onPlayerError = this.onPlayerError.bind(this)
+        this.onUserActiveChange = this.onUserActiveChange.bind(this)
         this.onChildComponentError = this.onChildComponentError.bind(this)
+        this.onMouseEnterOrLeaveDisappearingChild = this.onMouseEnterOrLeaveDisappearingChild.bind(this)
     }
 
     componentDidMount() {
@@ -157,8 +160,22 @@ class PlaybackScreen extends React.Component {
         this.props.navigate(routeNames.videoFileSelection)
     }
 
+    onUserActiveChange(active) {
+        this.setState({
+            isUserActive: active
+        })
+    }
+
     onChildComponentError(errorMessage) {
         this.showErrorMessage(errorMessage)
+    }
+
+    onMouseEnterOrLeaveDisappearingChild(childName, entered) {
+        const newValues = this.state.isMouseWithinDisappearingChild
+        newValues[childName] = entered
+        this.setState({
+            isMouseWithinDisappearingChild: newValues
+        })
     }
 
     fetchSingleStateUpdate() {
@@ -217,26 +234,9 @@ class PlaybackScreen extends React.Component {
     }
 
     render() {
-        const settings = this.state.isHost ? (
-            <PlaybackSessionSettings
-                sessionName={this.state.sessionName}
-                isWaitingRoom={this.state.isWaitingRoom}
-                isControlsAllowed={this.state.isControlsAllowed}
-                onError={this.onChildComponentError}/>
-        ) : ''
-
-        const reloadButton = this.state.error && this.state.error.showReloadButton ? (
-            <button type="button" onClick={() => window.location.reload()}>{translations.playback.reload}</button>
-        ) : ''
-        const error = this.state.error ? (
-            <div>
-                <p>{this.state.error.message}</p>
-                {reloadButton}
-            </div>
-        ) : ''
         return (
-            <div className="playback-screen-root">
-                <div className="playback-screen-player-div">
+            <Box height="100vh">
+                <Box position="absolute" height="100%" width="100%" zIndex={1}>
                     <Player
                         videoUrl={this.state.videoUrl}
                         isSeekingAllowed={this.state.isControlsGranted}
@@ -245,22 +245,55 @@ class PlaybackScreen extends React.Component {
                         onPause={position => this.onPlayOrPause(false)}
                         onPlay={position => this.onPlayOrPause(true)}
                         onUserSeek={position => this.onUserSeek(position)}
-                        onPlayerError={this.onPlayerError}/>
-                </div>
-                <div className="playback-screen-overlay-div">
-                    <PlaybackSessionDetails
-                        sessionCode={this.state.sessionCode}
-                        isHost={this.state.isHost}
-                        guestId={this.state.guestId}
-                        guests={this.state.guests}
-                        admissionRequests={this.state.admissionRequests}
-                        onError={this.onChildComponentError}/>
-                    {settings}
-                </div>
-                <div className="playback-screen-error-overlay-div">
-                    {error}
-                </div>
-            </div>
+                        onPlayerError={this.onPlayerError}
+                        onUserActiveChange={this.onUserActiveChange}/>
+                </Box>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '1em',
+                        right: '1em',
+                        zIndex: 2
+                    }}>
+                    <Fade
+                        in={
+                            this.state.isMouseWithinDisappearingChild['details'] ||
+                            this.state.isUserActive || !this.state.isPlaying
+                        }>
+                        <div
+                            onMouseEnter={() => this.onMouseEnterOrLeaveDisappearingChild('details', true)}
+                            onMouseLeave={() =>
+                                this.onMouseEnterOrLeaveDisappearingChild('details', false)
+                            }>
+                            <PlaybackSessionDetails
+                                sessionCode={this.state.sessionCode}
+                                isHost={this.state.isHost}
+                                guestId={this.state.guestId}
+                                guests={this.state.guests}
+                                admissionRequests={this.state.admissionRequests}
+                                onError={this.onChildComponentError}/>
+                            <Box sx={{display: this.state.isHost ? 'block' : 'none', mt: 2}}>
+                                <PlaybackSessionSettings
+                                    sessionName={this.state.sessionName}
+                                    isWaitingRoom={this.state.isWaitingRoom}
+                                    isControlsAllowed={this.state.isControlsAllowed}
+                                    onError={this.onChildComponentError}/>
+                            </Box>
+                        </div>
+                    </Fade>
+                </Box>
+                <Snackbar
+                    open={this.state.error}
+                    message={this.state.error ? this.state.error.message : ''}
+                    action={
+                        <Button
+                            variant="text"
+                            sx={{display: this.state.error && this.state.error.showReloadButton ? 'block' : 'none'}}
+                            onClick={() => window.location.reload()}>
+                            {translations.playback.reload}
+                        </Button>
+                    }/>
+            </Box>
         )
     }
 }
