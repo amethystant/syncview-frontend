@@ -85,7 +85,7 @@ class WelcomeScreen extends React.Component {
                         variant="outlined"
                         value={this.state.sessionCode}
                         onChange={this.onInputChange}
-                        style={{textTransform: 'uppercase'}}
+                        inputProps={{sx: {textTransform: 'uppercase'}}}
                         label={translations.welcome.sessionCode}/>
                     <TextField
                         name="guestName"
