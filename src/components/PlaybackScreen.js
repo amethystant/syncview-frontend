@@ -265,27 +265,29 @@ class PlaybackScreen extends React.Component {
                             onMouseLeave={() =>
                                 this.onMouseEnterOrLeaveDisappearingChild('details', false)
                             }>
-                            <Box sx={{maxHeight: '45vh', overflowY: 'auto'}}>
-                                <PlaybackSessionDetails
-                                    sessionCode={this.state.sessionCode}
-                                    sessionName={this.state.sessionName}
-                                    isHost={this.state.isHost}
-                                    guestId={this.state.guestId}
-                                    guests={this.state.guests}
-                                    admissionRequests={this.state.admissionRequests}
-                                    onError={this.onChildComponentError}/>
-                            </Box>
-                            <Box sx={{
-                                display: this.state.isHost ? 'block' : 'none',
-                                mt: 2,
-                                maxHeight: '45vh',
-                                overflowY: 'auto'
-                            }}>
-                                <PlaybackSessionSettings
-                                    sessionName={this.state.sessionName}
-                                    isWaitingRoom={this.state.isWaitingRoom}
-                                    isControlsAllowed={this.state.isControlsAllowed}
-                                    onError={this.onChildComponentError}/>
+                            <Box sx={{display: 'flex', flexDirection: 'row-reverse'}}>
+                                <Box sx={{maxHeight: '90vh', overflowY: 'auto'}}>
+                                    <PlaybackSessionDetails
+                                        sessionCode={this.state.sessionCode}
+                                        sessionName={this.state.sessionName}
+                                        isHost={this.state.isHost}
+                                        guestId={this.state.guestId}
+                                        guests={this.state.guests}
+                                        admissionRequests={this.state.admissionRequests}
+                                        onError={this.onChildComponentError}/>
+                                </Box>
+                                <Box sx={{
+                                    display: this.state.isHost ? 'block' : 'none',
+                                    mr: 2,
+                                    maxHeight: '90vh',
+                                    overflowY: 'auto'
+                                }}>
+                                    <PlaybackSessionSettings
+                                        sessionName={this.state.sessionName}
+                                        isWaitingRoom={this.state.isWaitingRoom}
+                                        isControlsAllowed={this.state.isControlsAllowed}
+                                        onError={this.onChildComponentError}/>
+                                </Box>
                             </Box>
                         </div>
                     </Fade>

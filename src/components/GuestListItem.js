@@ -1,5 +1,5 @@
 import React from 'react'
-import {Chip, IconButton, ListItem, ListItemText, Menu, MenuItem} from '@mui/material'
+import {Chip, IconButton, ListItem, ListItemText, Menu, MenuItem, Typography} from '@mui/material'
 import MoreVertSharpIcon from '@mui/icons-material/MoreVertSharp'
 import translations from '../translations'
 import {admitGuest, elevateGuest, kickGuest} from '../useCases'
@@ -89,7 +89,7 @@ class GuestListItem extends React.Component {
 
         return (
             <ListItem>
-                <ListItemText primary={this.props.guest.name}/>
+                <ListItemText primary={<Typography noWrap={true}>{this.props.guest.name}</Typography>}/>
                 <Chip
                     variant="filled"
                     size="small"

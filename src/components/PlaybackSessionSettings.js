@@ -103,7 +103,7 @@ class PlaybackSessionSettings extends React.Component {
             return (
                 <IconButton
                     size="large"
-                    sx={{position: 'absolute', right: '0', color: 'gray'}}
+                    sx={{color: 'gray'}}
                     onClick={this.onOpenClick}>
                     <SettingsIcon/>
                 </IconButton>
