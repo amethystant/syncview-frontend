@@ -5,9 +5,7 @@ const languages = {
         appName: appName,
         notFound: {
             title: `Not Found - ${appName}`,
-            heading: appName,
-            subheading: 'Page not found',
-            backHome: 'Back to homepage'
+            heading: '404 Page not found :('
         },
         welcome: {
             title: appName,
@@ -101,10 +99,7 @@ const languages = {
             heading: 'Redirecting...'
         },
         noAccess: {
-            title: appName,
-            heading: appName,
-            subheading: 'The session has either expired or you don\'t have access to it.',
-            backHome: 'Back to homepage'
+            heading: 'The session has either expired or you don\'t have access to it.'
         }
     }
 }

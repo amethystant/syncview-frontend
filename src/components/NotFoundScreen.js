@@ -1,9 +1,8 @@
 import React from 'react'
-import {Box, Link, Typography} from '@mui/material'
+import {Container, Typography} from '@mui/material'
 import translations from '../translations'
-import routeNames from '../routeNames'
 import {setDocumentTitle} from '../useCases'
-
+import GenericPage from './GenericPage'
 
 class NotFoundScreen extends React.Component {
 
@@ -13,31 +12,16 @@ class NotFoundScreen extends React.Component {
 
     render() {
         return (
-            <Box
-                backgroundColor="primary.dark"
-                minHeight="100vh"
-                display="flex"
-                flexDirection="column">
-                <Link href={routeNames.welcome} sx={{m: 1}}>{translations.notFound.backHome}</Link>
-                <Box
-                    flexGrow={1}
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="center"
-                    alignItems="center">
+            <GenericPage>
+                <Container maxWidth="md">
                     <Typography
                         variant="h3"
                         align="center"
-                        sx={{mb: 2}}>
+                        sx={{color: 'text.primary'}}>
                         {translations.notFound.heading}
                     </Typography>
-                    <Typography
-                        variant="h4"
-                        align="center">
-                        {translations.notFound.subheading}
-                    </Typography>
-                </Box>
-            </Box>
+                </Container>
+            </GenericPage>
         )
     }
 }

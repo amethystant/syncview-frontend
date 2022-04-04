@@ -1,6 +1,6 @@
 import React from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
-import {Box, Typography} from '@mui/material'
+import {Container, Typography} from '@mui/material'
 import translations from '../translations'
 import {setDocumentTitle, setLocalStorageValue} from '../useCases'
 import constants from '../constants'
@@ -10,7 +10,7 @@ import GenericPage from './GenericPage'
 class JoinSessionRedirectScreen extends React.Component {
 
     componentDidMount() {
-        setDocumentTitle(translations.joinSessionRedirect.title)
+        setDocumentTitle(translations.appName)
         setLocalStorageValue(constants.storageKeys.SESSION_CODE, this.props.params.sessionCode)
         setTimeout(() => {
             this.props.navigate(routeNames.welcome)
@@ -20,12 +20,14 @@ class JoinSessionRedirectScreen extends React.Component {
     render() {
         return (
             <GenericPage>
-                <Typography
-                    variant="h3"
-                    align="center"
-                    sx={{color: 'text.primary'}}>
-                    {translations.joinSessionRedirect.heading}
-                </Typography>
+                <Container maxWidth="md">
+                    <Typography
+                        variant="h3"
+                        align="center"
+                        sx={{color: 'text.primary'}}>
+                        {translations.joinSessionRedirect.heading}
+                    </Typography>
+                </Container>
             </GenericPage>
         )
     }

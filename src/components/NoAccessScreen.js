@@ -1,42 +1,27 @@
 import React from 'react'
-import {Box, Link, Typography} from '@mui/material'
+import {Container, Typography} from '@mui/material'
 import translations from '../translations'
-import routeNames from '../routeNames'
+import GenericPage from './GenericPage'
 import {setDocumentTitle} from '../useCases'
 
 class NoAccessScreen extends React.Component {
 
     componentDidMount() {
-        setDocumentTitle(translations.noAccess.title)
+        setDocumentTitle(translations.appName)
     }
 
     render() {
         return (
-            <Box
-                backgroundColor="primary.dark"
-                minHeight="100vh"
-                display="flex"
-                flexDirection="column">
-                <Link href={routeNames.welcome} sx={{m: 1}}>{translations.noAccess.backHome}</Link>
-                <Box
-                    flexGrow={1}
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="center"
-                    alignItems="center">
+            <GenericPage>
+                <Container maxWidth="md">
                     <Typography
                         variant="h3"
                         align="center"
-                        sx={{mb: 2}}>
+                        sx={{color: 'text.primary'}}>
                         {translations.noAccess.heading}
                     </Typography>
-                    <Typography
-                        variant="h4"
-                        align="center">
-                        {translations.noAccess.subheading}
-                    </Typography>
-                </Box>
-            </Box>
+                </Container>
+            </GenericPage>
         )
     }
 }
