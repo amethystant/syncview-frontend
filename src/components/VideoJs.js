@@ -1,5 +1,6 @@
 import '../styles/component/VideoJs.css'
 import 'video.js/dist/video-js.css'
+import '@videojs/themes/dist/forest/index.css';
 
 import React from 'react'
 import videojs from 'video.js'
@@ -201,7 +202,7 @@ class VideoJs extends React.Component {
 
                 <video
                     ref={node => this.videoNode = node}
-                    className="video-js video-js-wrapper-video"/>
+                    className="video-js vjs-theme-forest video-js-wrapper-video"/>
             </div>
         )
     }
