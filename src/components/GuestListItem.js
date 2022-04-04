@@ -88,7 +88,7 @@ class GuestListItem extends React.Component {
         }
 
         return (
-            <ListItem>
+            <ListItem dense={true}>
                 <ListItemText primary={<Typography noWrap={false}>{this.props.guest.name}</Typography>}/>
                 <Chip
                     variant="filled"

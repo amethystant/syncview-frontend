@@ -83,7 +83,7 @@ class PlaybackSessionDetails extends React.Component {
                         sx={{display: admissionRequestsItems.length ? 'block' : 'none'}}>
                         {admissionRequestsItems.length ? translations.playbackSessionDetails.admissionRequestsTitle : ''}
                     </Typography>
-                    <List>
+                    <List dense={true}>
                         {admissionRequestsItems}
                     </List>
                 </Stack>

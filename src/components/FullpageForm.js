@@ -6,7 +6,7 @@ class FullpageForm extends React.Component {
     render() {
         return (
             <Box
-                backgroundColor="primary.dark"
+                backgroundColor="background.default"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"

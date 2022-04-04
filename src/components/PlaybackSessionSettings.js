@@ -99,11 +99,10 @@ class PlaybackSessionSettings extends React.Component {
 
     render() {
         if (this.state.isCollapsed) {
-            // todo add light grey to palette and apply
             return (
                 <IconButton
                     size="large"
-                    sx={{color: 'gray'}}
+                    sx={{color: 'grey.200'}}
                     onClick={this.onOpenClick}>
                     <SettingsIcon/>
                 </IconButton>
