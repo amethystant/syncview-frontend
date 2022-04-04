@@ -57,12 +57,14 @@ class PlaybackSessionSettings extends React.Component {
         this.setState({
             isCollapsed: false
         })
+        this.props.onIsCollapsedChange(true)
     }
 
     onCloseClick() {
         this.setState({
             isCollapsed: true
         })
+        this.props.onIsCollapsedChange(true)
     }
 
     onSaveClick() {

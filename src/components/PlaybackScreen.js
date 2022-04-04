@@ -287,7 +287,10 @@ class PlaybackScreen extends React.Component {
                                         sessionName={this.state.sessionName}
                                         isWaitingRoom={this.state.isWaitingRoom}
                                         isControlsAllowed={this.state.isControlsAllowed}
-                                        onError={this.onChildComponentError}/>
+                                        onError={this.onChildComponentError}
+                                        onIsCollapsedChange={isCollapsed =>
+                                            this.onMouseEnterOrLeaveDisappearingChild('details', !isCollapsed)
+                                        }/>
                                 </Box>
                             </Box>
                         </div>
