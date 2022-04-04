@@ -1,9 +1,10 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
-import {Box, Link, Typography} from '@mui/material'
+import {Container, Typography} from '@mui/material'
 import translations from '../translations'
 import {getSessionStateUpdates, setDocumentTitle} from '../useCases'
 import routeNames from '../routeNames'
+import GenericPage from './GenericPage'
 
 class WaitingRoomScreen extends React.Component {
 
@@ -37,39 +38,23 @@ class WaitingRoomScreen extends React.Component {
 
     render() {
         return (
-            <Box
-                backgroundColor="primary.dark"
-                minHeight="100vh"
-                display="flex"
-                flexDirection="column">
-                <Link href={routeNames.welcome} sx={{m: 1}}>{translations.waitingRoom.backHome}</Link>
-                <Box
-                    flexGrow={1}
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="center"
-                    alignItems="center">
+            <GenericPage>
+                <Container maxWidth="md">
                     <Typography
                         variant="h3"
                         align="center"
-                        sx={{mb: 2}}>
+                        sx={{color: 'text.primary'}}>
                         {translations.waitingRoom.heading}
-                    </Typography>
-                    <Typography
-                        variant="h4"
-                        align="center"
-                        sx={{mb: 2}}>
-                        {translations.waitingRoom.subheading}
                     </Typography>
                     <Typography
                         variant="body2"
                         align="center"
                         color="error"
-                        sx={{display: this.state.errorMessage ? 'block' : 'none'}}>
+                        sx={{display: this.state.errorMessage ? 'block' : 'none', mt: 4}}>
                         {this.state.errorMessage ?? ''}
                     </Typography>
-                </Box>
-            </Box>
+                </Container>
+            </GenericPage>
         )
     }
 }
