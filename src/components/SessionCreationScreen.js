@@ -79,7 +79,7 @@ class SessionCreationScreen extends React.Component {
         return (
             <FullpageForm
                 heading={translations.sessionCreation.heading}>
-                <Stack spacing={1}>
+                <Stack spacing={2}>
                     <TextField
                         name="name"
                         type="text"

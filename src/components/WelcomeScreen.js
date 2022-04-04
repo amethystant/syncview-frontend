@@ -78,7 +78,7 @@ class WelcomeScreen extends React.Component {
         return (
             <FullpageForm
                 heading={translations.welcome.heading}>
-                <Stack spacing={1}>
+                <Stack spacing={2}>
                     <TextField
                         name="sessionCode"
                         type="text"

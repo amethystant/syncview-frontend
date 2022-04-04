@@ -64,7 +64,7 @@ class VideoFileSelectionScreen extends React.Component {
         return (
             <FullpageForm
                 heading={translations.videoFileSelection.heading(this.state.sessionName)}>
-                <Stack spacing={1}>
+                <Stack spacing={2}>
                     <FilePicker
                         accept=".mp4"
                         onFileChosen={this.onFileChosen}
