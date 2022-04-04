@@ -5,6 +5,7 @@ import translations from '../translations'
 import {setDocumentTitle, setLocalStorageValue} from '../useCases'
 import constants from '../constants'
 import routeNames from '../routeNames'
+import GenericPage from './GenericPage'
 
 class JoinSessionRedirectScreen extends React.Component {
 
@@ -18,25 +19,14 @@ class JoinSessionRedirectScreen extends React.Component {
 
     render() {
         return (
-            <Box
-                backgroundColor="primary.dark"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                flexDirection="column"
-                minHeight="100vh">
+            <GenericPage>
                 <Typography
                     variant="h3"
                     align="center"
-                    sx={{mb: 2}}>
+                    sx={{color: 'text.primary'}}>
                     {translations.joinSessionRedirect.heading}
                 </Typography>
-                <Typography
-                    variant="h4"
-                    align="center">
-                    {translations.joinSessionRedirect.subheading}
-                </Typography>
-            </Box>
+            </GenericPage>
         )
     }
 }

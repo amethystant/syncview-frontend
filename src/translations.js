@@ -98,9 +98,7 @@ const languages = {
             }
         },
         joinSessionRedirect: {
-            title: appName,
-            heading: appName,
-            subheading: 'Redirecting...'
+            heading: 'Redirecting...'
         },
         noAccess: {
             title: appName,
