@@ -58,7 +58,7 @@ class PlaybackSessionDetails extends React.Component {
         })
 
         return (
-            <Card sx={{p: 3}}>
+            <Card sx={{px: 3, pt: 2}}>
                 <Stack spacing={1}>
                     <Typography
                         variant="h6"

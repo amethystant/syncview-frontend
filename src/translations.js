@@ -90,14 +90,11 @@ const languages = {
             }
         },
         playbackSessionSettings: {
-            open: 'Open session settings',
-            close: 'Close',
             sessionName: 'Session name',
-            waitingRoom: 'Waiting room',
-            controlsAllowed: 'Controls allowed',
+            waitingRoom: 'Add waiting room',
+            controlsAllowed: 'Everyone can control playback',
             save: 'Save',
             errors: {
-                invalidData: 'Error: Invalid input.',
                 save: 'Error: Failed to save settings.'
             }
         },

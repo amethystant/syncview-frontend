@@ -1,4 +1,17 @@
 import React from 'react'
+import {
+    Box,
+    Button,
+    Card,
+    CircularProgress,
+    FormControlLabel,
+    IconButton,
+    Stack,
+    Switch,
+    TextField
+} from '@mui/material'
+import SettingsIcon from '@mui/icons-material/Settings'
+import CloseIcon from '@mui/icons-material/Close'
 import translations from '../translations'
 import {updateState} from '../useCases'
 
@@ -11,7 +24,7 @@ class PlaybackSessionSettings extends React.Component {
             sessionName: props.sessionName,
             isWaitingRoom: props.isWaitingRoom,
             isControlsAllowed: props.isControlsAllowed,
-            showInvalidInputMessage: false
+            isSaveLoading: false
         }
 
         this.onOpenClick = this.onOpenClick.bind(this)
@@ -20,34 +33,42 @@ class PlaybackSessionSettings extends React.Component {
         this.onInputChange = this.onInputChange.bind(this)
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const isPropsUpdated = prevProps.sessionName !== this.props.sessionName ||
+            prevProps.sessionName !== this.props.sessionName || prevProps.sessionName !== this.props.sessionName
+        if (isPropsUpdated) {
+            this.setState({
+                sessionName: this.props.sessionName,
+                isWaitingRoom: this.props.isWaitingRoom,
+                isControlsAllowed: this.props.isControlsAllowed
+            })
+        }
+    }
+
     resetState() {
         this.setState({
-            isCollapsed: true,
             sessionName: this.props.sessionName,
             isWaitingRoom: this.props.isWaitingRoom,
-            isControlsAllowed: this.props.isControlsAllowed,
-            showInvalidInputMessage: false
+            isControlsAllowed: this.props.isControlsAllowed
         })
     }
 
     onOpenClick() {
-        this.resetState()
         this.setState({
             isCollapsed: false
         })
     }
 
     onCloseClick() {
-        this.resetState()
+        this.setState({
+            isCollapsed: true
+        })
     }
 
     onSaveClick() {
-        if (!this.state.sessionName) {
-            this.setState({
-                showInvalidInputMessage: true
-            })
-        }
-
+        this.setState({
+            isSaveLoading: true
+        })
         const outboundState = {
             name: this.state.sessionName,
             isWaitingRoom: this.state.isWaitingRoom,
@@ -56,9 +77,15 @@ class PlaybackSessionSettings extends React.Component {
 
         updateState(outboundState)
             .then(() => {
-                this.resetState()
+                this.setState({
+                    isSaveLoading: false
+                })
             })
             .catch(error => {
+                this.setState({
+                    isSaveLoading: false
+                })
+                this.resetState()
                 this.props.onError(translations.playbackSessionSettings.errors.save)
             })
     }
@@ -72,54 +99,69 @@ class PlaybackSessionSettings extends React.Component {
 
     render() {
         if (this.state.isCollapsed) {
+            // todo add light grey to palette and apply
             return (
-                <button type="button" onClick={this.onOpenClick}>
-                    {translations.playbackSessionSettings.open}
-                </button>
+                <IconButton
+                    size="large"
+                    sx={{position: 'absolute', right: '0', color: 'gray'}}
+                    onClick={this.onOpenClick}>
+                    <SettingsIcon/>
+                </IconButton>
             )
         }
 
-        const invalidInputMessage = this.state.showInvalidInputMessage ? (
-            <p>{translations.playbackSessionSettings.errors.invalidData}<br/></p>
-        ) : ''
-
         return (
-            <form>
-                <button type="button" onClick={this.onCloseClick}>{translations.playbackSessionSettings.close}</button>
-                <br/>
-                {invalidInputMessage}
-                <input
-                    name="sessionName"
-                    type="text"
-                    required={true}
-                    maxLength="20"
-                    value={this.state.sessionName}
-                    onChange={this.onInputChange}
-                    placeholder={translations.playbackSessionSettings.sessionName}/>
-                <br/>
-                <label>
-                    <input
-                        name="isWaitingRoom"
-                        type="checkbox"
-                        checked={this.state.isWaitingRoom}
-                        onChange={this.onInputChange}/>
-                    {translations.playbackSessionSettings.waitingRoom}
-                </label>
-                <br/>
-                <label>
-                    <input
-                        name="isControlsAllowed"
-                        type="checkbox"
-                        checked={this.state.isControlsAllowed}
-                        onChange={this.onInputChange}/>
-                    {translations.playbackSessionSettings.controlsAllowed}
-                </label>
-                <button
-                    type="button"
-                    onClick={this.onSaveClick}>
-                    {translations.playbackSessionSettings.save}
-                </button>
-            </form>
+            <Card>
+                <Box sx={{p: 1}}>
+                    <IconButton onClick={this.onCloseClick}>
+                        <CloseIcon/>
+                    </IconButton>
+                </Box>
+                <Stack sx={{px: 3, pb: 2}} spacing={1}>
+                    <TextField
+                        name="sessionName"
+                        type="text"
+                        variant="outlined"
+                        inputProps={{maxLength: 20}}
+                        value={this.state.sessionName}
+                        onChange={this.onInputChange}
+                        label={translations.playbackSessionSettings.sessionName}/>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                name="isWaitingRoom"
+                                checked={this.state.isWaitingRoom}
+                                onChange={this.onInputChange}/>
+                        }
+                        label={translations.playbackSessionSettings.waitingRoom}/>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                name="isControlsAllowed"
+                                checked={this.state.isControlsAllowed}
+                                onChange={this.onInputChange}/>
+                        }
+                        label={translations.playbackSessionSettings.controlsAllowed}/>
+                    <Box
+                        height="3em"
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={{display: this.state.isSaveLoading ? 'flex' : 'none'}}>
+                        <CircularProgress sx={{width: '100%'}}/>
+                    </Box>
+                    <Button
+                        variant="outlined"
+                        sx={{
+                            height: '3em',
+                            display: this.state.isSaveLoading ? 'none' : 'block'
+                        }}
+                        disabled={!this.state.sessionName}
+                        onClick={this.onSaveClick}>
+                        {translations.playbackSessionSettings.save}
+                    </Button>
+                </Stack>
+            </Card>
         )
     }
 }

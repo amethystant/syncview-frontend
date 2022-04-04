@@ -41,7 +41,7 @@ class PlaybackScreen extends React.Component {
             isInitialStateLoaded: false,
             isForcePaused: false,
             error: null,
-            isUserActive: false,
+            isUserActive: true,
             isMouseWithinDisappearingChild: {}
         }
 
