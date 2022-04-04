@@ -1,9 +1,9 @@
 const routeNames = {
     welcome: '/',
-    playback: '/playback',
-    sessionCreation: '/create',
+    playback: '/watch',
+    sessionCreation: '/create-session',
     waitingRoom: '/waiting-room',
-    videoFileSelection: '/file-selection',
+    videoFileSelection: '/choose-file',
     noAccess: '/no-access',
     joinSessionRedirect: (sessionCode) => {
         return sessionCode ? `/join/${sessionCode}` : '/join/:sessionCode'
