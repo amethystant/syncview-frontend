@@ -53,6 +53,12 @@ const languages = {
         playback: {
             title: sessionName => `${sessionName} - ${appName}`,
             reload: 'Reload page',
+            leaveDialogue: {
+                title: 'Leave session',
+                content: 'Do you really wish to leave the session?',
+                confirm: 'Leave',
+                cancel: 'Cancel'
+            },
             errors: {
                 controlsNotGranted: 'Error: You don\'t have permissions to control the playback.',
                 stateUpdateFailed: 'Error: Could not synchronise your playback with the server. Check your internet ' +

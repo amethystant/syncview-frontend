@@ -21,7 +21,8 @@ export default {
         URL_ACCESS_SESSION: (sessionCode) => createUrl(config.URL_BACKEND, `session/${sessionCode}/access`),
         URL_ADMIT_GUEST: (sessionCode, guestId) => createUrl(config.URL_BACKEND, `session/${sessionCode}/guest/${guestId}/admit`),
         URL_ELEVATE_GUEST: (sessionCode, guestId) => createUrl(config.URL_BACKEND, `session/${sessionCode}/guest/${guestId}/elevate`),
-        URL_KICK_GUEST: (sessionCode, guestId) => createUrl(config.URL_BACKEND, `session/${sessionCode}/guest/${guestId}/kick`)
+        URL_KICK_GUEST: (sessionCode, guestId) => createUrl(config.URL_BACKEND, `session/${sessionCode}/guest/${guestId}/kick`),
+        URL_LEAVE: (sessionCode) => createUrl(config.URL_BACKEND, `session/${sessionCode}/leave`)
     },
     storageKeys: {
         SESSION_CODE: 'SESSION_CODE',

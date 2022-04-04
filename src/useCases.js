@@ -13,6 +13,7 @@ import buildAdmitGuest from './usecase/admitGuest'
 import buildElevateGuest from './usecase/elevateGuest'
 import buildKickGuest from './usecase/kickGuest'
 import buildSetDocumentTitle from './usecase/setDocumentTitle'
+import buildLeaveSession from './usecase/leaveSession'
 
 const storage = localStorage
 const clipboard = navigator.clipboard
@@ -38,3 +39,4 @@ export const admitGuest = buildAdmitGuest(makeAuthenticatedJsonRequest, storage)
 export const elevateGuest = buildElevateGuest(makeAuthenticatedJsonRequest, storage)
 export const kickGuest = buildKickGuest(makeAuthenticatedJsonRequest, storage)
 export const setDocumentTitle = buildSetDocumentTitle(documentRef)
+export const leaveSession = buildLeaveSession(makeAuthenticatedJsonRequest, cleanSessionStorageData, storage)

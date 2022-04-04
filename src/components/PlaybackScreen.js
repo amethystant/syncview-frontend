@@ -1,13 +1,26 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
-import {Box, Button, Fade, Snackbar} from '@mui/material'
+import {
+    Box,
+    Button,
+    Dialog, DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Fade,
+    IconButton,
+    Snackbar
+} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import Player from './Player'
 import constants from '../constants'
 import {
     getSessionStateUpdates,
     updateState,
     getSessionState,
-    getLocalStorageValue, setDocumentTitle
+    getLocalStorageValue,
+    setDocumentTitle,
+    leaveSession
 } from '../useCases'
 import routeNames from '../routeNames'
 import PlaybackSessionDetails from './PlaybackSessionDetails'
@@ -42,13 +55,16 @@ class PlaybackScreen extends React.Component {
             isForcePaused: false,
             error: null,
             isUserActive: true,
-            isMouseWithinDisappearingChild: {}
+            isMouseWithinDisappearingChild: {},
+            isLeaveDialogueOpen: false
         }
 
         this.timeoutIds = []
 
         this.onPlayOrPause = this.onPlayOrPause.bind(this)
         this.onUserSeek = this.onUserSeek.bind(this)
+        this.onLeaveClick = this.onLeaveClick.bind(this)
+        this.onLeaveConfirmed = this.onLeaveConfirmed.bind(this)
         this.onPlayerError = this.onPlayerError.bind(this)
         this.onUserActiveChange = this.onUserActiveChange.bind(this)
         this.onChildComponentError = this.onChildComponentError.bind(this)
@@ -164,6 +180,18 @@ class PlaybackScreen extends React.Component {
             })
     }
 
+    onLeaveClick() {
+        this.setState({
+            isLeaveDialogueOpen: true
+        })
+    }
+
+    onLeaveConfirmed() {
+        leaveSession().finally(() => {
+            this.props.navigate(routeNames.welcome)
+        })
+    }
+
     onPlayerError() {
         this.props.navigate(routeNames.videoFileSelection)
     }
@@ -255,6 +283,50 @@ class PlaybackScreen extends React.Component {
                         onUserSeek={position => this.onUserSeek(position)}
                         onPlayerError={this.onPlayerError}
                         onUserActiveChange={this.onUserActiveChange}/>
+                </Box>
+                <Dialog
+                    open={this.state.isLeaveDialogueOpen}
+                    onClose={() => this.setState({isLeaveDialogueOpen: false})}>
+                    <DialogTitle>{translations.playback.leaveDialogue.title}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>{translations.playback.leaveDialogue.content}</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            variant="text"
+                            onClick={() => this.setState({isLeaveDialogueOpen: false})}>
+                            {translations.playback.leaveDialogue.cancel}
+                        </Button>
+                        <Button variant="contained" onClick={this.onLeaveConfirmed}>
+                            {translations.playback.leaveDialogue.confirm}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '1em',
+                        left: '1em',
+                        zIndex: 2
+                    }}>
+                    <Fade
+                        in={
+                            this.state.isMouseWithinDisappearingChild['close-button'] ||
+                            this.state.isUserActive || !this.state.isPlaying
+                        }>
+                        <div
+                            onMouseEnter={() => this.onMouseEnterOrLeaveDisappearingChild('close-button', true)}
+                            onMouseLeave={() =>
+                                this.onMouseEnterOrLeaveDisappearingChild('close-button', false)
+                            }>
+                            <IconButton
+                                size="large"
+                                sx={{color: 'grey.200'}}
+                                onClick={this.onLeaveClick}>
+                                <CloseIcon/>
+                            </IconButton>
+                        </div>
+                    </Fade>
                 </Box>
                 <Box
                     sx={{
