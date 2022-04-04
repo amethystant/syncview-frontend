@@ -266,7 +266,7 @@ class PlaybackScreen extends React.Component {
                                 this.onMouseEnterOrLeaveDisappearingChild('details', false)
                             }>
                             <Box sx={{display: 'flex', flexDirection: 'row-reverse'}}>
-                                <Box sx={{maxHeight: '90vh', overflowY: 'auto'}}>
+                                <Box sx={{maxHeight: '90vh', maxWidth: '45vw', overflow: 'auto'}}>
                                     <PlaybackSessionDetails
                                         sessionCode={this.state.sessionCode}
                                         sessionName={this.state.sessionName}
@@ -280,7 +280,8 @@ class PlaybackScreen extends React.Component {
                                     display: this.state.isHost ? 'block' : 'none',
                                     mr: 2,
                                     maxHeight: '90vh',
-                                    overflowY: 'auto'
+                                    maxWidth: '45vw',
+                                    overflow: 'auto'
                                 }}>
                                     <PlaybackSessionSettings
                                         sessionName={this.state.sessionName}

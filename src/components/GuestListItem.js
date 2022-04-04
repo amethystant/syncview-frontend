@@ -89,7 +89,7 @@ class GuestListItem extends React.Component {
 
         return (
             <ListItem>
-                <ListItemText primary={<Typography noWrap={true}>{this.props.guest.name}</Typography>}/>
+                <ListItemText primary={<Typography noWrap={false}>{this.props.guest.name}</Typography>}/>
                 <Chip
                     variant="filled"
                     size="small"
