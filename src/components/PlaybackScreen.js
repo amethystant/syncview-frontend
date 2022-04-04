@@ -109,15 +109,23 @@ class PlaybackScreen extends React.Component {
             return
         }
 
-        if (!this.state.isControlsGranted) {
-            this.showErrorMessage(translations.playback.errors.playOrPauseNotAllowed)
+        if (this.state.isForcePaused && isPlaying) {
             this.setState({
-                isForcePaused: isPlaying !== this.state.isPlaying ? !isPlaying : false
+                isForcePaused: false
             })
-            return
         }
 
         if (isPlaying === this.state.isPlaying) {
+            return
+        }
+
+        if (!this.state.isControlsGranted) {
+            if (!isPlaying) {
+                this.showErrorMessage(translations.playback.errors.pauseNotAllowed)
+            }
+            this.setState({
+                isForcePaused: !isPlaying
+            })
             return
         }
 

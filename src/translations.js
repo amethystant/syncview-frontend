@@ -61,8 +61,7 @@ const languages = {
                 controlsNotGranted: 'Error: You don\'t have permissions to control the playback.',
                 stateUpdateFailed: 'Error: Could not synchronise your playback with the server. Check your internet ' +
                     'connection.',
-                playOrPauseNotAllowed: 'You don\'t have permissions to control the playback. ' +
-                    'Performing the action locally.',
+                pauseNotAllowed: 'You don\'t have permissions to control the playback. Pausing locally.',
                 stateFetchFailed: 'Error: Could not synchronise your playback with the server. Check your internet ' +
                     'connection.',
                 websocketClosed: 'Error: Connection to the session was lost.'
