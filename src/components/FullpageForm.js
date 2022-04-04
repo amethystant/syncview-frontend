@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Card, Container, Typography} from '@mui/material'
+import {Card, Container, Typography} from '@mui/material'
 import GenericPage from './GenericPage'
 
 class FullpageForm extends React.Component {
