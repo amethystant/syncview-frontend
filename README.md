@@ -1,3 +1,15 @@
+# How to deploy
+
+## Local testing
+`npm start` \
+Then edit config.js and update `URL_FRONTEND` based on the output of the previous command
+
+## Production
+`npm run build` \
+Then deploy all the files in build/ as static resources, but any unrecognised path should lead to index.html
+
+#(original README added by Create React App follows) 
+# ===============
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
