@@ -2,14 +2,18 @@
 
 ## Local testing
 `npm start` \
-Then edit config.js and update `URL_FRONTEND` based on the output of the previous command
+Then edit `config.js` and update `URL_FRONTEND` based on the output of the previous command and `URL_BACKEND` based on backend URL. \
+If frontend and backend URLs differ, double-check that CORS is configured correctly on the backend.
 
 ## Production
-`npm run build` \
-Then deploy all the files in build/ as static resources, but any unrecognised path should lead to index.html
+Update `config.js` so that `URL_FRONTEND` and `URL_BACKEND` match the URLs the frontend and backend will be deployed at. \
+If frontend and backend URLs differ, double-check that CORS is configured correctly on the backend. \
+Run `npm run build`. \
+Then serve all the files in build/ as static resources, any other path should lead to index.html. \
+You can use the `serve-production-build.js` script to serve them, as long as you update the file to use your SSL certificate.
 
-#(original README added by Create React App follows) 
-# ===============
+# (original README added by Create React App follows)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
