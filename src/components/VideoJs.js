@@ -80,15 +80,20 @@ class VideoJs extends React.Component {
     }
 
     updatePlayerState() {
-        if (this.props.isPlaying && this.player.paused()) {
+        if (this.props.isPlaying && this.player.paused() && !this.player.ended()) {
             this.player.play()
         } else if (!this.props.isPlaying && !this.player.paused()) {
             this.player.pause()
         }
 
         if (this.isOutOfSync() && this.props.isPlaying) {
+            const desirablePositionSeconds = this.getDesirablePositionMs() / 1000
             this.isAdjusting = true
-            this.player.currentTime(this.getDesirablePositionMs() / 1000)
+            if (this.player.duration() > desirablePositionSeconds) {
+                this.player.currentTime(this.getDesirablePositionMs() / 1000)
+            } else {
+                this.player.currentTime(this.player.duration())
+            }
         }
 
         this.isInitialStateLoaded = true
@@ -98,7 +103,7 @@ class VideoJs extends React.Component {
         const player = this.player
 
         player.on('pause', () => {
-            if (!player.seeking() && this.isInitialStateLoaded) {
+            if (!player.seeking() && !player.ended() && this.isInitialStateLoaded) {
                 this.props.onPause(player.currentTime() * 1000)
             }
         })
@@ -120,7 +125,7 @@ class VideoJs extends React.Component {
                     this.props.onUserSeek(player.currentTime() * 1000)
                 }
             } else {
-                if (this.isOutOfSync()) {
+                if (this.isOutOfSync() && !this.player.ended()) {
                     this.player.currentTime(this.getDesirablePositionMs() / 1000)
                 } else {
                     this.isAdjusting = false
