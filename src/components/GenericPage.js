@@ -11,7 +11,7 @@ class GenericPage extends React.Component {
                 backgroundColor="background.default"
                 display="flex"
                 flexDirection="column"
-                sx={{pt: 3, minHeight: '100vh'}}>
+                sx={{pt: 3, height: '100vh', minHeight: 600}}>
                 <Typography
                     align="center"
                     sx={{position: 'absolute', width: '100%'}}>
