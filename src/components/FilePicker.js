@@ -19,7 +19,7 @@ class FilePicker extends React.Component {
             fileName: file.name
         })
         const url = URL.createObjectURL(file)
-        this.props.onFileChosen(url)
+        this.props.onFileChosen(url, file.type)
     }
 
     render() {

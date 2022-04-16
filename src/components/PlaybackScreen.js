@@ -34,6 +34,7 @@ class PlaybackScreen extends React.Component {
         super(props)
         this.state = {
             videoUrl: getLocalStorageValue(constants.storageKeys.FILE_URL),
+            videoType: getLocalStorageValue(constants.storageKeys.FILE_TYPE),
             sessionCode: getLocalStorageValue(constants.storageKeys.SESSION_CODE) ?? '',
             guestId: null,
             isHost: false,
@@ -275,6 +276,7 @@ class PlaybackScreen extends React.Component {
                 <Box position="absolute" height="100%" width="100%" zIndex={1}>
                     <Player
                         videoUrl={this.state.videoUrl}
+                        videoType={this.state.videoType}
                         isSeekingAllowed={this.state.isControlsGranted}
                         isPlaying={this.state.isPlaying && !this.state.isForcePaused}
                         position={this.state.position}

@@ -7,7 +7,7 @@ class Player extends React.Component {
     render() {
         const sources = [{
             src: this.props.videoUrl,
-            type: 'video/mp4'
+            type: this.props.videoType
         }]
         const videoJsOptions = {
             autoplay: false,

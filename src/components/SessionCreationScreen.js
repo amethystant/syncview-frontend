@@ -18,6 +18,7 @@ class SessionCreationScreen extends React.Component {
             isWaitingRoom: false,
             isControlsAllowed: true,
             fileUrl: null,
+            fileType: null,
             formError: '',
             createLoading: false
         }
@@ -41,14 +42,15 @@ class SessionCreationScreen extends React.Component {
         })
     }
 
-    onFileChosen(url) {
+    onFileChosen(url, type) {
         this.setState({
-            fileUrl: url
+            fileUrl: url,
+            fileType: type
         })
     }
 
     onCreateClicked() {
-        const {name, hostName, isWaitingRoom, isControlsAllowed, fileUrl} = this.state
+        const {name, hostName, isWaitingRoom, isControlsAllowed, fileUrl, fileType} = this.state
 
         if (this.createPromise) {
             return
@@ -60,7 +62,10 @@ class SessionCreationScreen extends React.Component {
 
         const fileDescription = '-' // todo make file description
         this.createPromise = createSession(name, hostName, isWaitingRoom, isControlsAllowed, fileDescription)
-            .then(() => setLocalStorageValue(constants.storageKeys.FILE_URL, fileUrl))
+            .then(() => {
+                setLocalStorageValue(constants.storageKeys.FILE_URL, fileUrl)
+                setLocalStorageValue(constants.storageKeys.FILE_TYPE, fileType)
+            })
             .then(() => this.navigateToPlayback())
             .catch(error => {
                 this.createPromise = null
@@ -113,7 +118,7 @@ class SessionCreationScreen extends React.Component {
                         }
                         label={translations.sessionCreation.controlsAllowed}/>
                     <FilePicker
-                        accept=".mp4"
+                        accept=".mp4,.webm"
                         onFileChosen={this.onFileChosen}
                         inputId="session-video-file"/>
                     <Typography

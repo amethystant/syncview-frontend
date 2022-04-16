@@ -27,7 +27,8 @@ export default {
     storageKeys: {
         SESSION_CODE: 'SESSION_CODE',
         TOKEN: 'TOKEN',
-        FILE_URL: 'FILE_URL'
+        FILE_URL: 'FILE_URL',
+        FILE_TYPE: 'FILE_TYPE'
     },
     URL_SHARED_SESSION: (sessionCode) => createUrl(config.URL_FRONTEND, routeNames.joinSessionRedirect(sessionCode))
 }

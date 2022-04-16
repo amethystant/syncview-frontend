@@ -5,5 +5,6 @@ export default function (storage) {
         storage.removeItem(constants.storageKeys.TOKEN)
         storage.removeItem(constants.storageKeys.SESSION_CODE)
         storage.removeItem(constants.storageKeys.FILE_URL)
+        storage.removeItem(constants.storageKeys.FILE_TYPE)
     }
 }

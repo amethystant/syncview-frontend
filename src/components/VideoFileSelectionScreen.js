@@ -15,6 +15,7 @@ class VideoFileSelectionScreen extends React.Component {
         this.state = {
             formError: '',
             fileUrl: '',
+            fileType: '',
             sessionName: translations.videoFileSelection.sessionNamePlaceholder
         }
 
@@ -41,9 +42,10 @@ class VideoFileSelectionScreen extends React.Component {
             })
     }
 
-    onFileChosen(url) {
+    onFileChosen(url, type) {
         this.setState({
-            fileUrl: url
+            fileUrl: url,
+            fileType: type
         })
     }
 
@@ -57,6 +59,7 @@ class VideoFileSelectionScreen extends React.Component {
 
         // todo verify files first
         setLocalStorageValue(constants.storageKeys.FILE_URL, this.state.fileUrl)
+        setLocalStorageValue(constants.storageKeys.FILE_TYPE, this.state.fileType)
         this.props.navigate(routeNames.playback)
     }
 
@@ -66,7 +69,7 @@ class VideoFileSelectionScreen extends React.Component {
                 heading={translations.videoFileSelection.heading(this.state.sessionName)}>
                 <Stack spacing={2}>
                     <FilePicker
-                        accept=".mp4"
+                        accept=".mp4,.webm"
                         onFileChosen={this.onFileChosen}
                         inputId="session-video-file"/>
                     <Typography
